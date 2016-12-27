@@ -1,4 +1,4 @@
-package com.nowak01011111.damian.bunchoftools;
+package com.nowak01011111.damian.bunchoftools.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,6 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.nowak01011111.damian.bunchoftools.display.ImageCaptionedAdapter;
+import com.nowak01011111.damian.bunchoftools.R;
+import com.nowak01011111.damian.bunchoftools.activity.ItemsActivity;
+import com.nowak01011111.damian.bunchoftools.entity.Tools;
+import com.nowak01011111.damian.bunchoftools.display.ViewModel;
 
 import java.util.ArrayList;
 

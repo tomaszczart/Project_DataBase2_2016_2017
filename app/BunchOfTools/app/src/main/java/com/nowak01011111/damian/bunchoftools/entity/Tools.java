@@ -1,14 +1,16 @@
-package com.nowak01011111.damian.bunchoftools;
+package com.nowak01011111.damian.bunchoftools.entity;
+
+import com.nowak01011111.damian.bunchoftools.R;
 
 /**
  * Created by utche on 30.10.2016.
- * TODO: this class is temporary, to delete in near future (when api is ready)
  */
 
 public class Tools {
     private String name;
     private int imageResourceId;
 
+    //TODO: delete in near future (when api is ready)
     public static final Tools[] tools = {
             new Tools("Axe", R.drawable.axe),
             new Tools("Brush", R.drawable.brush),

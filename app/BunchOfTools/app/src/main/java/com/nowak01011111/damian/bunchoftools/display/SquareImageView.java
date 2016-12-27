@@ -1,4 +1,4 @@
-package com.nowak01011111.damian.bunchoftools.widgets;
+package com.nowak01011111.damian.bunchoftools.display;
 
 import android.content.Context;
 import android.util.AttributeSet;

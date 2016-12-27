@@ -1,4 +1,4 @@
-package com.nowak01011111.damian.bunchoftools;
+package com.nowak01011111.damian.bunchoftools.activity;
 
 
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.nowak01011111.damian.bunchoftools.R;
+import com.nowak01011111.damian.bunchoftools.fragments.ToolsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

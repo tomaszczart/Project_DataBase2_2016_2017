@@ -24,7 +24,7 @@
             app:expandedTitleMarginEnd="64dp"
             android:fitsSystemWindows="true">
 
-            <com.nowak01011111.damian.bunchoftools.widgets.SquareImageView
+            <com.nowak01011111.damian.bunchoftools.display.SquareImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

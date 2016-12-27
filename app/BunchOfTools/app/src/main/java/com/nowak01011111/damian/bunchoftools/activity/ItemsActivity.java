@@ -1,4 +1,4 @@
-package com.nowak01011111.damian.bunchoftools;
+package com.nowak01011111.damian.bunchoftools.activity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -12,12 +12,14 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
-import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nowak01011111.damian.bunchoftools.R;
+import com.nowak01011111.damian.bunchoftools.display.ViewModel;
 
 public class ItemsActivity extends AppCompatActivity {
     private static final String EXTRA_IMAGE = "items.extraImage";

@@ -1,4 +1,4 @@
-package com.nowak01011111.damian.bunchoftools;
+package com.nowak01011111.damian.bunchoftools.display;
 
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nowak01011111.damian.bunchoftools.R;
 
 import java.util.ArrayList;
 
