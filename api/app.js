@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const getEmployees = require('./routes/get/employees');
 const getItems = require('./routes/get/items');
 const getModels = require('./routes/get/models');
+const getTransaction = require('./routes/get/transactions');
 const postRegister = require('./routes/post/register');
 const postLogin = require('./routes/post/login');
 
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use('/get/employees', getEmployees);
 app.use('/get/items', getItems);
 app.use('/get/models', getModels);
+app.use('/get/transactions', getTransaction);
 app.use('/post/register', postRegister);
 app.use('/post/login', postLogin);
 

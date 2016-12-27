@@ -13,7 +13,7 @@ module.exports = (function() {
         sql.query`select * from Model`.then(recordset => {
             res.json(recordset);
         }).catch(err => {
-            res.json(err);
+            res.status(404).send();
         });
     });
 

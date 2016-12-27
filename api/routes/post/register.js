@@ -25,6 +25,7 @@ module.exports = (function() {
                     request.query(`INSERT INTO Customer (name, address, email, phone, password) VALUES ('${name}', '${address}', '${email}', '${phone}', '${hash}')`).then(recordset => {
                         res.status(201).send();//if everything goes right, return 201 status code
                     }).catch(err => {
+                        console.log(err);
                         res.status(500).send();//else return error code
                     });
             });

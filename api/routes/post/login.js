@@ -5,10 +5,10 @@
  */
 
 const router = require('express').Router();
-const sql = require('../../db/db-connection');
-const jwt = require('jwt-simple');
 const bcrypt = require('bcrypt-nodejs');
+const jwt = require('jwt-simple');
 const secretKey = require('../../js/secretKey').secretKey;
+const sql = require('../../db/db-connection');
 
 module.exports = (function() {
 
@@ -19,12 +19,10 @@ module.exports = (function() {
 
         findUserByEmailAndPhone(email, (isUser, user) => {//check if user exists
             if(isUser){//if not create new user
-                console.log(secretKey);
                 bcrypt.compare(password, user.password, function(err, bcryptRes) {
                     if(!err){
                         if(bcryptRes){
-                            console.log(user);
-                            let token = jwt.encode({username: user.email}, secretKey); // TODO username except email !!! (NO USERNAME FIELD IN DATABASE)
+                            let token = jwt.encode({email: user.email}, secretKey); // TODO username except email !!! (NO USERNAME FIELD IN DATABASE)
                             res.json(token);
                         }else{
                             res.status(401).send();//wrong password
