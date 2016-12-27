@@ -16,6 +16,5 @@ module.exports = (function() {
             res.status(404).send();
         });
     });
-
     return router;
 })();

@@ -14,6 +14,7 @@ const getModels = require('./routes/get/models');
 const getTransaction = require('./routes/get/transactions');
 const postRegister = require('./routes/post/register');
 const postLogin = require('./routes/post/login');
+const postReservation = require('./routes/post/reservation');
 
 const PORT = 3000;
 
@@ -27,6 +28,7 @@ app.use('/get/models', getModels);
 app.use('/get/transactions', getTransaction);
 app.use('/post/register', postRegister);
 app.use('/post/login', postLogin);
+app.use('/post/reservation', postReservation);
 
 app.listen(PORT, () => {
     console.log(`Banch of Tools API is now running on port ${PORT}.`);

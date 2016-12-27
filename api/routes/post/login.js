@@ -17,8 +17,8 @@ module.exports = (function() {
         let email = req.body.email;
         let password = req.body.password;
 
-        findUserByEmailAndPhone(email, (isUser, user) => {//check if user exists
-            if(isUser){//if not create new user
+        findUserByEmailAndPhone(email, user => {//check if user exists
+            if(user != null){//if not create new user
                 bcrypt.compare(password, user.password, function(err, bcryptRes) {
                     if(!err){
                         if(bcryptRes){
@@ -44,12 +44,11 @@ module.exports = (function() {
 function findUserByEmailAndPhone(email, callback){
     sql.query`SELECT email, password FROM Customer WHERE email=${email}`.then(recordset => {
         if(recordset.length == 1){
-            callback(true, recordset[0]);
+            callback(recordset[0]);
         }else{
-            callback(false, "");
+            callback(null);
         }
     }).catch(err => {
-        console.log(err);
-        callback(false, "");
+        callback(null);
     });
 }
