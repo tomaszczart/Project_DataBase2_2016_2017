@@ -1,0 +1,24 @@
+{
+  "name": "bunch-of-tools-api",
+  "version": "1.0.0",
+  "description": "API for 'Bunch Of Tools' home hardware rental mobile application.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "API",
+    "bunch",
+    "of",
+    "tools"
+  ],
+  "author": "Tomasz Czart",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "jwt-simple": "^0.5.1",
+    "mssql": "^3.3.0"
+  }
+}
