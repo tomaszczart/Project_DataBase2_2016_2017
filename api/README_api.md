@@ -3,15 +3,15 @@
 
 Rejestracja odbywa się po wysłaniu zapytania zapytania HTTP typu POST do API pod adres "127.0.0.1:3000/post/register".
 Do rejestracji wymagane są następujące elementy w sekcji body zapytania HTTP:
-* <b>employee</b> <l>true (employee) albo false (customer)</l> <b> Pozosotałe elementy nagłówka zależą od tego pola</b>
+* <b>employee</b> *true (employee) albo false (customer)* -> <b>Pozosotałe elementy nagłówka zależą od tego pola</b>
 
-<b>Jeżeli <l>true</l> to rejestrujemy Employee:</b>
+<b>Jeżeli *true* to rejestrujemy Employee:</b>
 * username
 * name
 * address
 * password 
 
-<b>Jeżeli <l>false</l> to rejestrujemy Customera:</b>
+<b>Jeżeli *false* to rejestrujemy Customera:</b>
 * username
 * name
 * address
@@ -36,12 +36,12 @@ Token ten musi być wysyłany z kazdym zapytaniem w celu weryfikacji uprawnień 
 
 # Pobieranie danych z API.
 
-'/get/employees' - lista pracowników
-'/get/items' = lista itemów
-'/get/models' - lista mdoeli
-'/get/transactions' - lista transakcji (autoryzacja tylko dla usera z uprawieniami pracownika)
-'/post/register'
-'/post/login'
+* '/get/employees' - lista pracowników
+* '/get/items' = lista itemów
+* '/get/models' - lista mdoeli
+* '/get/transactions' - lista transakcji (autoryzacja tylko dla usera z uprawieniami pracownika)
+* '/post/register'
+* '/post/login'
 
 # Dodawanie rezerwacji.
 
