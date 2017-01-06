@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = new ToolsFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame, fragment, "visible_fragment");
-        ft.addToBackStack(null);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
 

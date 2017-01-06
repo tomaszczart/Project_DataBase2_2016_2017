@@ -8,8 +8,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,9 +25,11 @@ import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
 import com.nowak01011111.damian.bunchoftools.R;
+import com.nowak01011111.damian.bunchoftools.display.SimpleViewModel;
 import com.nowak01011111.damian.bunchoftools.display.ViewModel;
+import com.nowak01011111.damian.bunchoftools.fragments.ItemListFragment;
 
-public class ItemsActivity extends AppCompatActivity {
+public class ItemsActivity extends AppCompatActivity implements ItemListFragment.OnFragmentInteractionListener{
     private static final String EXTRA_IMAGE = "items.extraImage";
     private static final String EXTRA_TITLE = "items.extraTitle";
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -63,6 +68,11 @@ public class ItemsActivity extends AppCompatActivity {
         Palette.from(bitmap).generate(palette -> applyPalette(palette));
         TextView title = (TextView) findViewById(R.id.title);
         title.setText(itemTitle);
+
+        Fragment fragment = new ItemListFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frame, fragment, "visible_fragment");
+        ft.commit();
     }
 
     @Override public boolean dispatchTouchEvent(MotionEvent motionEvent) {
@@ -97,5 +107,10 @@ public class ItemsActivity extends AppCompatActivity {
 
         fab.setRippleColor(lightVibrantColor);
         fab.setBackgroundTintList(ColorStateList.valueOf(vibrantColor));
+    }
+
+    @Override
+    public void onFragmentInteraction(View view, SimpleViewModel simpleViewModel) {
+        Snackbar.make(findViewById(R.id.content_frame), "FAB Clicked", Snackbar.LENGTH_SHORT).show();
     }
 }

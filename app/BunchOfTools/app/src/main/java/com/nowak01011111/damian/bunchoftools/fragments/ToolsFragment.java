@@ -1,6 +1,5 @@
 package com.nowak01011111.damian.bunchoftools.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,7 @@ import android.content.Context;
 
 import com.nowak01011111.damian.bunchoftools.display.ImageCaptionedAdapter;
 import com.nowak01011111.damian.bunchoftools.R;
-import com.nowak01011111.damian.bunchoftools.entity.Tools;
+import com.nowak01011111.damian.bunchoftools.entity.Tool;
 import com.nowak01011111.damian.bunchoftools.display.ViewModel;
 
 import java.util.ArrayList;
@@ -27,9 +26,9 @@ public class ToolsFragment extends Fragment implements ImageCaptionedAdapter.OnI
         RecyclerView toolsRecycler = (RecyclerView)inflater.inflate(R.layout.fragment_tools, container, false);
         //TODO: chnage data source
         ArrayList<ViewModel> viewModels = new ArrayList<>();
-        String[] toolsNames = new String[Tools.tools.length];
+        String[] toolsNames = new String[Tool.tools.length];
         for(int i = 0; i <toolsNames.length; i++){
-            ViewModel viewModel = new ViewModel(Tools.tools[i].getName(), Tools.tools[i].getImageResourceId());
+            ViewModel viewModel = new ViewModel(Tool.tools[i].getName(), Tool.tools[i].getImageResourceId());
             viewModels.add(viewModel);
         }
 
@@ -65,4 +64,6 @@ public class ToolsFragment extends Fragment implements ImageCaptionedAdapter.OnI
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(View view, ViewModel viewModel);
     }
+
+
 }
