@@ -8,55 +8,51 @@ public class Item {
 
     private Model model;
     private int id;
-    private Reservation reservation;
     private Condition condition;
+    private Status status;
 
     //TODO: delete in near future (when api is ready)
     public static final Item[] items = {
-            new Item(1, Model.models[0], Condition.GOOD),
-            new Item(2, Model.models[0], Condition.GOOD),
-            new Item(3, Model.models[0], Condition.GOOD),
-            new Item(4, Model.models[0], Condition.GOOD),
-            new Item(5, Model.models[0], Condition.GOOD),
-
+            new Item(1, Model.models[0], Condition.GOOD, Status.AVAILABLE),
+            new Item(2, Model.models[0], Condition.GOOD, Status.AVAILABLE),
+            new Item(3, Model.models[0], Condition.GOOD, Status.AVAILABLE),
+            new Item(4, Model.models[0], Condition.GOOD, Status.AVAILABLE),
+            new Item(5, Model.models[0], Condition.GOOD, Status.AVAILABLE),
     };
 
 
-    public Item(int id, Model model, Condition condition ){
+    public Item(int id, Model model, Condition condition, Status status ){
         this.id = id;
         this.model = model;
         this.condition = condition;
+        this.status = status;
     }
 
     public Model getModel(){
         return  model;
     }
-
     public int getId(){
         return id;
     }
-
-    public Reservation getReservation(){
-        return reservation;
-    }
-
     public Condition getCondition(){
         return condition;
     }
-
     public void setCondition(Condition condition){
         this.condition = condition;
     }
-
-    public void setReservation(Reservation reservation){
-        this.reservation = reservation;
-    }
-
-
+    public Status getStatus() {return status;}
+    public void setStatus(Status status){this.status = status;}
 }
 
 enum Condition {
     BAD,
+    NORMAL,
     GOOD,
+}
+
+enum Status {
+    AVAILABLE,
+    RENTED,
+    RESERVED,
 }
 
