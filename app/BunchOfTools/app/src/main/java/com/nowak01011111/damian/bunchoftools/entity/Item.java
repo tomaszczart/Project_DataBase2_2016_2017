@@ -6,29 +6,29 @@ package com.nowak01011111.damian.bunchoftools.entity;
 
 public class Item {
 
-    private Tool model;
+    private Model model;
     private int id;
     private Reservation reservation;
     private Condition condition;
 
     //TODO: delete in near future (when api is ready)
     public static final Item[] items = {
-            new Item(1,Tool.tools[0], Condition.GOOD),
-            new Item(2,Tool.tools[0], Condition.GOOD),
-            new Item(3,Tool.tools[0], Condition.GOOD),
-            new Item(4,Tool.tools[0], Condition.GOOD),
-            new Item(5,Tool.tools[0], Condition.GOOD),
+            new Item(1, Model.models[0], Condition.GOOD),
+            new Item(2, Model.models[0], Condition.GOOD),
+            new Item(3, Model.models[0], Condition.GOOD),
+            new Item(4, Model.models[0], Condition.GOOD),
+            new Item(5, Model.models[0], Condition.GOOD),
 
     };
 
 
-    public Item(int id, Tool model, Condition condition ){
+    public Item(int id, Model model, Condition condition ){
         this.id = id;
         this.model = model;
         this.condition = condition;
     }
 
-    public Tool getModel(){
+    public Model getModel(){
         return  model;
     }
 

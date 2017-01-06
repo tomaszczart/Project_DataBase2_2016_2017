@@ -12,32 +12,31 @@ import android.content.Context;
 
 import com.nowak01011111.damian.bunchoftools.display.ImageCaptionedAdapter;
 import com.nowak01011111.damian.bunchoftools.R;
-import com.nowak01011111.damian.bunchoftools.entity.Tool;
+import com.nowak01011111.damian.bunchoftools.entity.Model;
 import com.nowak01011111.damian.bunchoftools.display.ViewModel;
 
 import java.util.ArrayList;
 
-public class ToolsFragment extends Fragment implements ImageCaptionedAdapter.OnItemClickListener {
+public class ModelListFragment extends Fragment implements ImageCaptionedAdapter.OnItemClickListener {
     private OnFragmentInteractionListener mListener;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        RecyclerView toolsRecycler = (RecyclerView)inflater.inflate(R.layout.fragment_tools, container, false);
+        RecyclerView modelsRecycler = (RecyclerView)inflater.inflate(R.layout.fragment_model_list, container, false);
         //TODO: chnage data source
         ArrayList<ViewModel> viewModels = new ArrayList<>();
-        String[] toolsNames = new String[Tool.tools.length];
-        for(int i = 0; i <toolsNames.length; i++){
-            ViewModel viewModel = new ViewModel(Tool.tools[i].getName(), Tool.tools[i].getImageResourceId());
+        for(int i = 0; i <Model.models.length; i++){
+            ViewModel viewModel = new ViewModel(Model.models[i].getName(), Model.models[i].getImageResourceId());
             viewModels.add(viewModel);
         }
 
         ImageCaptionedAdapter adapter = new ImageCaptionedAdapter(viewModels);
         adapter.setOnItemClickListener(this);
-        toolsRecycler.setAdapter(adapter);
+        modelsRecycler.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        toolsRecycler.setLayoutManager(layoutManager);
-        return toolsRecycler;
+        modelsRecycler.setLayoutManager(layoutManager);
+        return modelsRecycler;
     }
 
     @Override
