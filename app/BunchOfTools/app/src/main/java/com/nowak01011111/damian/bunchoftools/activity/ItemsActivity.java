@@ -2,6 +2,8 @@ package com.nowak01011111.damian.bunchoftools.activity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -17,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 import com.nowak01011111.damian.bunchoftools.R;
 import com.nowak01011111.damian.bunchoftools.display.ViewModel;
@@ -44,8 +47,7 @@ public class ItemsActivity extends AppCompatActivity {
         ViewCompat.setTransitionName(findViewById(R.id.app_bar_layout), EXTRA_IMAGE);
         supportPostponeEnterTransition();
 
-        //setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         String itemTitle = getIntent().getStringExtra(EXTRA_TITLE);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
@@ -56,6 +58,9 @@ public class ItemsActivity extends AppCompatActivity {
         final ImageView image = (ImageView) findViewById(R.id.image);
         Drawable drawable = getResources().getDrawable(imageIds); //TODO: replace deprecated
         image.setImageDrawable(drawable);
+
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        Palette.from(bitmap).generate(palette -> applyPalette(palette));
         TextView title = (TextView) findViewById(R.id.title);
         title.setText(itemTitle);
     }

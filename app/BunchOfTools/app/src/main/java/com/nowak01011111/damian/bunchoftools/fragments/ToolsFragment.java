@@ -9,17 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.content.Context;
 
 import com.nowak01011111.damian.bunchoftools.display.ImageCaptionedAdapter;
 import com.nowak01011111.damian.bunchoftools.R;
-import com.nowak01011111.damian.bunchoftools.activity.ItemsActivity;
 import com.nowak01011111.damian.bunchoftools.entity.Tools;
 import com.nowak01011111.damian.bunchoftools.display.ViewModel;
 
 import java.util.ArrayList;
 
 public class ToolsFragment extends Fragment implements ImageCaptionedAdapter.OnItemClickListener {
-    private Activity parentActivity;
+    private OnFragmentInteractionListener mListener;
 
     @Nullable
     @Override
@@ -42,13 +42,27 @@ public class ToolsFragment extends Fragment implements ImageCaptionedAdapter.OnI
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        parentActivity = activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
+
+
 
     @Override
     public void onItemClick(View view, ViewModel viewModel) {
-        ItemsActivity.navigate( (android.support.v7.app.AppCompatActivity)parentActivity, view.findViewById(R.id.info_image), viewModel);
+        if (mListener != null) {
+            mListener.onFragmentInteraction(view.findViewById(R.id.info_image), viewModel);
+        }
+
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(View view, ViewModel viewModel);
     }
 }
