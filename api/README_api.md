@@ -1,4 +1,12 @@
 
+# Token
+
+Token po rozkodowaniu ma taką strukturę: 
+*{
+  "username": "Tofik123",
+  "employee": false
+}*
+
 # Rejestracja.
 
 Rejestracja odbywa się po wysłaniu zapytania zapytania HTTP typu POST do API pod adres "127.0.0.1:3000/post/register".
