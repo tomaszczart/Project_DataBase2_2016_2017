@@ -16,29 +16,33 @@ module.exports = (function() {
         let token = req.headers['x-auth'];
         let itemId = req.body.item_id;
         let date = req.body.date;
-        let auth = jwt.decode(token, secretKey); // TODO username except email !!! (NO USERNAME FIELD IN DATABASE)
-        verifyUser(auth.email, user => {//TODO USERNAME
-            if(user != null){
-                let request = new sql.Request();//end save in database
-                request.query(`INSERT INTO Reservation (customer_id, item_id, date) VALUES (${user.customer_id}, ${itemId}, '${date}')`).then(recordset => { //DATE MUST BE FORMATED AS 'YYYY-mm-dd HH:ii:ss'
-                    res.status(201).send();//if everything goes right, return 201 status code
-                }).catch(err => {
-                    console.log(err);
-                    res.status(500).send();//else return error code
-                });
-            }else{
-                res.status(401).send();
-            }
-        });
+        let auth = jwt.decode(token, secretKey);
+        //Employee cannot make a reservation
+        if(!auth.employee) {
+            verifyUser(auth.username, user => {
+                if (user != null) {
+                    let request = new sql.Request();//end save in database
+                    request.query(`INSERT INTO Reservation (customer_id, item_id, date) VALUES (${user.customer_id}, ${itemId}, '${date}')`).then(recordset => { //DATE MUST BE FORMATED AS 'YYYY-mm-dd HH:ii:ss'
+                        res.status(201).send();//if everything goes right, return 201 status code
+                    }).catch(err => {
+                        console.log(err);
+                        res.status(500).send();//else return error code
+                    });
+                } else {
+                    res.status(401).send();
+                }
+            });
+        }else{
+            res.status(401).send();//if employee tries to make a reservation
+        }
     });
 
     return router;
 })();
 
-
 /* Check if given user exist and get  */
-function verifyUser(email, callback){
-    sql.query`SELECT * FROM Customer WHERE email=${email}`.then(recordset => {//TODO USERNAME
+function verifyUser(username, callback){
+    sql.query`SELECT * FROM Customer WHERE username=${username}`.then(recordset => {
         if(recordset.length == 1){
             callback(recordset[0]);
         }else{
