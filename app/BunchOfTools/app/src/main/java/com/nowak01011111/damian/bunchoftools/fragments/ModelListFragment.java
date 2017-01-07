@@ -18,7 +18,7 @@ import com.nowak01011111.damian.bunchoftools.display.ViewModel;
 import java.util.ArrayList;
 
 public class ModelListFragment extends Fragment implements ImageCaptionedAdapter.OnItemClickListener {
-    private OnFragmentInteractionListener mListener;
+    private OnModelListFragmentInteractionListener mListener;
 
     @Nullable
     @Override
@@ -42,8 +42,8 @@ public class ModelListFragment extends Fragment implements ImageCaptionedAdapter
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnModelListFragmentInteractionListener) {
+            mListener = (OnModelListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -55,13 +55,13 @@ public class ModelListFragment extends Fragment implements ImageCaptionedAdapter
     @Override
     public void onItemClick(View view, ViewModel viewModel) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(view.findViewById(R.id.info_image), viewModel);
+            mListener.onModelListFragmentItemClick(view.findViewById(R.id.info_image), viewModel);
         }
 
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(View view, ViewModel viewModel);
+    public interface OnModelListFragmentInteractionListener {
+        void onModelListFragmentItemClick(View view, ViewModel viewModel);
     }
 
 

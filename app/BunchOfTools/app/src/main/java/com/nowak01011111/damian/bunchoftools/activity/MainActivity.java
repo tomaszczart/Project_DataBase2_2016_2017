@@ -17,11 +17,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.nowak01011111.damian.bunchoftools.R;
+import com.nowak01011111.damian.bunchoftools.apiClient.SaveSharedPreference;
 import com.nowak01011111.damian.bunchoftools.display.ViewModel;
+import com.nowak01011111.damian.bunchoftools.fragments.LoginFragment;
 import com.nowak01011111.damian.bunchoftools.fragments.ModelListFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ModelListFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ModelListFragment.OnModelListFragmentInteractionListener, LoginFragment.OnLoginFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +50,20 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Fragment fragment = new ModelListFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frame, fragment, "visible_fragment");
-        ft.commit();
+        if(SaveSharedPreference.getUserId(MainActivity.this) == -1 || SaveSharedPreference.getEmpolyeeId(MainActivity.this) == -1)
+        {
+            Fragment fragment = new LoginFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment, "visible_fragment");
+            ft.commit();
+        }
+        else
+        {
+            Fragment fragment = new ModelListFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment, "visible_fragment");
+            ft.commit();
+        }
     }
 
     @Override
@@ -112,7 +124,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(View view, ViewModel viewModel) {
+    public void onModelListFragmentItemClick(View view, ViewModel viewModel) {
         ItemsActivity.navigate(this,view,viewModel);
+    }
+
+
+    @Override
+    public void onLoginOperationResult(boolean result) {
+
+    }
+
+    @Override
+    public void onSignUp() {
+
     }
 }
