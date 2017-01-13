@@ -1,11 +1,17 @@
 package com.nowak01011111.damian.bunchoftools.activity;
 
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,13 +23,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.nowak01011111.damian.bunchoftools.R;
-import com.nowak01011111.damian.bunchoftools.apiClient.SaveSharedPreference;
+import com.nowak01011111.damian.bunchoftools.api_client.ApiConnectionFragment;
+import com.nowak01011111.damian.bunchoftools.api_client.ApiTaskCallback;
+import com.nowak01011111.damian.bunchoftools.authorization.InAppAuthorization;
 import com.nowak01011111.damian.bunchoftools.display.ViewModel;
 import com.nowak01011111.damian.bunchoftools.fragments.LoginFragment;
 import com.nowak01011111.damian.bunchoftools.fragments.ModelListFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ModelListFragment.OnModelListFragmentInteractionListener, LoginFragment.OnLoginFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ModelListFragment.OnModelListFragmentInteractionListener, LoginFragment.OnLoginFragmentInteractionListener, ApiTaskCallback{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +58,35 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if(SaveSharedPreference.getUserId(MainActivity.this) == -1 || SaveSharedPreference.getEmpolyeeId(MainActivity.this) == -1)
+        mApiConnectionFragment = ApiConnectionFragment.getInstance(getSupportFragmentManager());
+
+        if(InAppAuthorization.isUserLoggedIn(this)|| InAppAuthorization.isEmployeeLoggedIn(this))
         {
-            Fragment fragment = new LoginFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment, "visible_fragment");
-            ft.commit();
+            showLoginFragment();
         }
         else
         {
-            Fragment fragment = new ModelListFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment, "visible_fragment");
-            ft.commit();
+            showModelListFragment();
         }
+    }
+
+    private void showLoginFragment(){
+        Fragment fragment = new LoginFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frame, fragment, "visible_fragment");
+        ft.commit();
+    }
+
+    private void showModelListFragment(){
+        Fragment fragment = new ModelListFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frame, fragment, "visible_fragment");
+        ft.commit();
+    }
+
+    private void startSignUpActivity(){
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -130,12 +153,82 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    public void onLoginOperationResult(boolean result) {
+    public void onLoginOperation(String login, String password, boolean asEmployee) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Wait while loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        if (!mLoginInInProgress && mApiConnectionFragment != null) {
+            // Execute the async download.
+            mApiConnectionFragment.login(login, password, asEmployee);
+            mLoginInInProgress = true;
+        }
+    }
+
+
+
+    @Override
+    public void onSignUp() {
+        startSignUpActivity();
+    }
+
+    private ApiConnectionFragment mApiConnectionFragment;
+
+    private boolean mLoginInInProgress = false;
+
+    ProgressDialog progressDialog;
+
+    @Override
+    public void updateFromDownload(String result, String token, String error) {
+        if(error != null && !error.isEmpty()){
+            Snackbar.make(findViewById(android.R.id.content),  error, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }else{
+            Snackbar.make(findViewById(android.R.id.content),  result, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public NetworkInfo getActiveNetworkInfo() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo;
+    }
+
+    @Override
+    public void onProgressUpdate(int progressCode, int percentComplete) {
+        switch(progressCode) {
+            case Progress.ERROR:
+                Log.d("LoginProgress", "ERROR");
+                break;
+            case Progress.CONNECT_SUCCESS:
+                Log.d("LoginProgress", "CONNECT_SUCCESS");
+                break;
+            case Progress.GET_INPUT_STREAM_SUCCESS:
+                Log.d("LoginProgress", "GET_INPUT_STREAM_SUCCESS");
+                break;
+            case Progress.PROCESS_INPUT_STREAM_IN_PROGRESS:
+                Log.d("LoginProgress", "PROCESS_INPUT_STREAM_IN_PROGRESS");
+                break;
+            case Progress.PROCESS_INPUT_STREAM_SUCCESS:
+                Log.d("LoginProgress", "PROCESS_INPUT_STREAM_SUCCESS");
+                break;
+        }
+        Log.d("LoginProgress", "percentComplete");
 
     }
 
     @Override
-    public void onSignUp() {
-
+    public void finishDownloading() {
+        mLoginInInProgress = false;
+        if (mApiConnectionFragment != null) {
+            mApiConnectionFragment.cancelDownload();
+        }
     }
+
+
 }

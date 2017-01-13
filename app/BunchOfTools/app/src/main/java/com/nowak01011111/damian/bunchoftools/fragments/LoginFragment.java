@@ -40,11 +40,7 @@ public class LoginFragment extends Fragment {
         asEmployeeCheckBox = (CheckBox) view.findViewById(R.id.as_employee_checkBox);
 
         loginButton.setOnClickListener(view1 -> {
-            String login = inputUsername.getText().toString();
-            String password = inputPassword.getText().toString();
-            boolean asEmployee = asEmployeeCheckBox.isChecked();
-
-            loginOperation(login, password, asEmployee);
+            loginOperation();
         });
 
         signUpButton.setOnClickListener(view1 -> {
@@ -54,12 +50,14 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    private void loginOperation(String login, String password, boolean asEmployee) {
-        boolean result = false;
+    private void loginOperation() {
+        String login = inputUsername.getText().toString();
+        String password = inputPassword.getText().toString();
+        boolean asEmployee = asEmployeeCheckBox.isChecked();
 
 
         if (mListener != null) {
-            mListener.onLoginOperationResult(result);
+            mListener.onLoginOperation(login, password, asEmployee);
         }
     }
 
@@ -87,7 +85,7 @@ public class LoginFragment extends Fragment {
     }
 
     public interface OnLoginFragmentInteractionListener {
-        void onLoginOperationResult(boolean result);
+        void onLoginOperation(String login, String password, boolean asEmployee);
         void onSignUp();
     }
 }

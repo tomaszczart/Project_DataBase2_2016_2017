@@ -1,0 +1,11 @@
+api/.idea/workspace.xml
+api/node_modules/*
+app/BunchOfTools/*.iml
+app/BunchOfTools/.gradle
+app/BunchOfTools/local.properties
+app/BunchOfTools/.idea/workspace.xml
+app/BunchOfTools/.idea/libraries
+app/BunchOfTools/.DS_Store
+app/BunchOfTools/build
+app/BunchOfTools/captures
+app/BunchOfTools/.externalNativeBuild
