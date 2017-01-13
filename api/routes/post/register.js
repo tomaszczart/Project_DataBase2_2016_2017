@@ -18,8 +18,9 @@ module.exports = (function() {
         let password = req.body.password;
         let username = req.body.username;
 
-        if(employee){
+        if(employee == 'true'){
             //REGISTER AS EMPLOYEE
+            console.log("EMP");
             findEmployeeByUsername(username, noEmployee => {//check if user exists
                 if (noEmployee) {//if not create new user
                     bcrypt.hash(password, null, null, (err, hash) => {//encrypt password
@@ -37,6 +38,11 @@ module.exports = (function() {
             });
         }else {
             //REGISTER AS CUSTOMER
+
+            let email = req.body.email;
+            let phone = req.body.phone;
+
+            console.log("USER");
             findUserByUsername(username, noUser => {//check if user exists
                 if (noUser) {//if not create new user
                     bcrypt.hash(password, null, null, (err, hash) => {//encrypt password

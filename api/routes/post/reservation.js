@@ -18,7 +18,7 @@ module.exports = (function() {
         let date = req.body.date;
         let auth = jwt.decode(token, secretKey);
         //Employee cannot make a reservation
-        if(!auth.employee) {
+        if(auth.employee != 'true') {
             verifyUser(auth.username, user => {
                 if (user != null) {
                     let request = new sql.Request();//end save in database

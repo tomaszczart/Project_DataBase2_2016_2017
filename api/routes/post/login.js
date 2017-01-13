@@ -18,7 +18,7 @@ module.exports = (function() {
         let username = req.body.username;
         let password = req.body.password;
 
-        if(employee){
+        if(employee == 'true'){
             //LOG IN AS A EMPLOYEE
             findEmployeeByUsername(username, user => {//check if user exists
                 if(user != null){//if not create new user
