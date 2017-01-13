@@ -13,8 +13,11 @@ module.exports = (function() {
 
     router.get('/', function(req, res) {
         let token = req.headers['x-auth'];
-        let auth = jwt.decode(token, secretKey);
-        console.log(auth);
+        let auth;
+
+        try{
+            auth = jwt.decode(token, secretKey);
+            console.log(auth);
             if(auth.employee){
                 sql.query`SELECT * FROM Transactions`.then(recordset => {
                     res.json(recordset);
@@ -24,6 +27,11 @@ module.exports = (function() {
             }else{
                 res.status(401).send();
             }
+        }catch(err){
+            res.status(401).send();
+        }
+
+
     });
     return router;
 })();
