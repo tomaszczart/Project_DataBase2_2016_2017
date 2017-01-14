@@ -11,15 +11,15 @@ Token po rozkodowaniu ma taką strukturę:
 
 Rejestracja odbywa się po wysłaniu zapytania zapytania HTTP typu POST do API pod adres "127.0.0.1:3000/post/register".
 Do rejestracji wymagane są następujące elementy w sekcji body zapytania HTTP:
-* <b>employee</b> *true (employee) albo false (customer)* -> <b>Pozosotałe elementy nagłówka zależą od tego pola</b>
+* __employee__ *true (employee) albo false (customer)* -> __Pozosotałe elementy nagłówka zależą od tego pola.__
 
-<b>Jeżeli *true* to rejestrujemy Employee:</b>
+__Jeżeli *true* to rejestrujemy Employee:__
 * username
 * name
 * address
 * password 
 
-<b>Jeżeli *false* to rejestrujemy Customera:</b>
+__Jeżeli *false* to rejestrujemy Customera:__
 * username
 * name
 * address
@@ -27,13 +27,13 @@ Do rejestracji wymagane są następujące elementy w sekcji body zapytania HTTP:
 * phone
 * password 
 
-<l>Na razie hasło jest wysyłane w postaci czystego tekstu który jest haszownay przez api, później bd trzeba to przerobić na haszowanie po stronie aplikacji androidowej [BCrypt].</l>
+*Na razie hasło jest wysyłane w postaci czystego tekstu który jest haszownay przez api, później bd trzeba to przerobić na haszowanie po stronie aplikacji androidowej [BCrypt].*
 
 # Logowanie.
 
 Logowanie odbywa się po wysłaniu zapytania HTTP typu POST do API pod adres "127.0.0.1:3000/post/login".
 Do logowania wymagane są następujące elementy w sekcji body zapytania HTTP:
-* <b>employee</b>  <l>true (employee) albo false (customer)</l>
+* __employee__  *true (employee) albo false (customer)*
 * username
 * password //wysyłane jako czysty tekst, porównanie jest robione przez api nie wiem na ile jest to bezpieczne rozwiązanie bo nie wygląda to zbyt ciekawie jak wysyłamy jawnie hasło po http ;/ -- trzeba bd to zmienić
 
@@ -47,6 +47,18 @@ Token ten musi być wysyłany z kazdym zapytaniem w celu weryfikacji uprawnień 
 # Dodawanie rezerwacji.
 
 Data musi być w formacie 'YYYY-mm-dd HH:ii:ss';
+
+# Tworzenie i kończenie transakcji
+
+* '/post/makeTransaction' służy do towrzenia nowej transakcji.
+Transakcję może stworzyć tylko użytkowanik posiadajacy prawa __Employee__.
+W nagłówku zapytaia __x-auth__ należy przesłać token, a w __body__ *customer_id, employee_id* oraz *data_start*. 
+
+* '/post/endTransaction' służy do rozliczania transakcji.
+Transakcję może rozliczyć tylko użytkowanik posiadajacy prawa __Employee__.
+W nagłówku zapytaia __x-auth__ należy przesłać token, a w __body__ *transaction_id, data_end* oraz *price*.
+
+__Należy pamiętać o formacie dat:'YYYY-mm-dd HH:ii:ss'!!!__
 
 # Pobranie listy modeli oraz ich obrazków
 
