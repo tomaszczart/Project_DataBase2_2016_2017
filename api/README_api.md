@@ -48,10 +48,18 @@ Token ten musi być wysyłany z kazdym zapytaniem w celu weryfikacji uprawnień 
 
 * '/get/employees' - lista pracowników
 * '/get/items' = lista itemów
-* '/get/models' - lista mdoeli
 * '/get/transactions' - lista transakcji (autoryzacja tylko dla usera z uprawieniami pracownika)
 * '/post/register'
 * '/post/login'
+
+# Pobranie listy modeli oraz ich obrazków
+
+* '/get/models' - lista modeli bez obrazków. Pobierane są następujaće pola: model_id,name,description,price_per_hour,picture
+
+* '/get/imgOfModel/model_id' - pobieranie obrazka o wskazanym __model_id__.
+
+Aby pobrać obrazek dla wybranego modelu należy w adresie URL podać jego __model_id__.
+*Przykładowo, pobranie obrazka dla modelu o __model_id__=__6__ adres URL będzie nastepujący: "__/get/imgOfModel/6__".*
 
 # Dodawanie rezerwacji.
 
