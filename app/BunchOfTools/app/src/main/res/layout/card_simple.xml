@@ -17,7 +17,15 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/info_text"
+            android:id="@+id/name_text"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/text_large"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/description_text"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
             android:layout_height="wrap_content"

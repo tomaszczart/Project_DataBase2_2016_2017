@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity implements ApiTaskCallback
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        mApiConnectionFragment = ApiConnectionFragment.getInstance(getSupportFragmentManager());
+        mApiConnectionFragment = ApiConnectionFragment.getInstance(getSupportFragmentManager(),this);
 
 
     }

@@ -27,12 +27,14 @@ import com.nowak01011111.damian.bunchoftools.api_client.ApiConnectionFragment;
 import com.nowak01011111.damian.bunchoftools.api_client.ApiTaskCallback;
 import com.nowak01011111.damian.bunchoftools.api_client.functionalities.Login;
 import com.nowak01011111.damian.bunchoftools.authorization.InAppAuthorization;
+import com.nowak01011111.damian.bunchoftools.display.SimpleViewModel;
 import com.nowak01011111.damian.bunchoftools.display.ViewModel;
+import com.nowak01011111.damian.bunchoftools.fragments.CategoryListFragment;
 import com.nowak01011111.damian.bunchoftools.fragments.LoginFragment;
 import com.nowak01011111.damian.bunchoftools.fragments.ModelListFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ModelListFragment.OnModelListFragmentInteractionListener, LoginFragment.OnLoginFragmentInteractionListener, ApiTaskCallback{
+        implements NavigationView.OnNavigationItemSelectedListener, ModelListFragment.OnModelListFragmentInteractionListener,  LoginFragment.OnLoginFragmentInteractionListener,  ApiTaskCallback, CategoryListFragment.OnFragmentInteractionListener{
 
     public static final int SIGN_UP_REQUEST = 10;
     private static final String SIGN_UP_RESULT_CODE_OK_MESSAGE = "Sign up successful";
@@ -59,11 +61,11 @@ public class MainActivity extends AppCompatActivity
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        mApiConnectionFragment = ApiConnectionFragment.getInstance(getSupportFragmentManager());
+        mApiConnectionFragment = ApiConnectionFragment.getInstance(getSupportFragmentManager(),this);
 
         if(InAppAuthorization.isUserLoggedIn(this)|| InAppAuthorization.isEmployeeLoggedIn(this))
         {
-            showModelListFragment();
+            showCategoryListFragment();
         }
         else
         {
@@ -78,7 +80,14 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
     }
 
-    private void showModelListFragment(){
+    private void showCategoryListFragment(){
+        Fragment fragment = new CategoryListFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frame, fragment, "visible_fragment");
+        ft.commit();
+    }
+
+    private void showModelListFragment(int id){
         Fragment fragment = new ModelListFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame, fragment, "visible_fragment");
@@ -204,7 +213,7 @@ public class MainActivity extends AppCompatActivity
                     .setAction("Action", null).show();
         }else{
             Login.saveToken(result, asEmployee, this);
-            showModelListFragment();
+            showCategoryListFragment();
         }
         progressDialog.dismiss();
     }
@@ -248,4 +257,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onFragmentInteraction(SimpleViewModel simpleViewModel) {
+       //TODO go to model
+    }
 }

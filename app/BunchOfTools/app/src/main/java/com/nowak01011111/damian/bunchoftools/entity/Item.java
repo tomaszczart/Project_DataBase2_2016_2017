@@ -6,53 +6,53 @@ package com.nowak01011111.damian.bunchoftools.entity;
 
 public class Item {
 
-    private Model model;
+    private int modelId;
     private int id;
     private Condition condition;
     private Status status;
 
-    //TODO: delete in near future (when api is ready)
-    public static final Item[] items = {
-            new Item(1, Model.models[0], Condition.GOOD, Status.AVAILABLE),
-            new Item(2, Model.models[0], Condition.GOOD, Status.AVAILABLE),
-            new Item(3, Model.models[0], Condition.GOOD, Status.AVAILABLE),
-            new Item(4, Model.models[0], Condition.GOOD, Status.AVAILABLE),
-            new Item(5, Model.models[0], Condition.GOOD, Status.AVAILABLE),
-    };
-
-
-    public Item(int id, Model model, Condition condition, Status status ){
+    public Item(int id, int modelId, Condition condition, Status status) {
         this.id = id;
-        this.model = model;
+        this.modelId = modelId;
         this.condition = condition;
         this.status = status;
     }
 
-    public Model getModel(){
-        return  model;
+    public int getModelId() {
+        return modelId;
     }
-    public int getId(){
+
+    public int getId() {
         return id;
     }
-    public Condition getCondition(){
+
+    public Condition getCondition() {
         return condition;
     }
-    public void setCondition(Condition condition){
+
+    public void setCondition(Condition condition) {
         this.condition = condition;
     }
-    public Status getStatus() {return status;}
-    public void setStatus(Status status){this.status = status;}
-}
 
-enum Condition {
-    BAD,
-    NORMAL,
-    GOOD,
-}
+    public Status getStatus() {
+        return status;
+    }
 
-enum Status {
-    AVAILABLE,
-    RENTED,
-    RESERVED,
-}
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
+    public enum Condition {
+        BAD,
+        NORMAL,
+        GOOD,
+    }
+
+    public enum Status {
+        AVAILABLE,
+        RENTED,
+        RESERVED,
+    }
+
+
+}

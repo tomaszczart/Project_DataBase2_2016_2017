@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.nowak01011111.damian.bunchoftools.authorization.SaveSharedPreference;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +38,7 @@ public class ApiConnectionFragment extends Fragment {
     private static final String URL_API_GET_EMPLOYEES = "/get/employees";
     private static final String URL_API_GET_ITEMS = "/get/items";
     private static final String URL_API_GET_MODELS = "/get/models";
+    private static final String URL_API_GET_CATEGORY = "/get/category";
     private static final String URL_API_GET_TRANSACTIONS = "/get/transactions";
     private static final String URL_API_REGISTER = "/post/register";
 
@@ -55,13 +58,14 @@ public class ApiConnectionFragment extends Fragment {
     private ApiTaskCallback mCallback;
     private ApiTask mApiTask;
 
-    public static ApiConnectionFragment getInstance(FragmentManager fragmentManager) {
+    public static ApiConnectionFragment getInstance(FragmentManager fragmentManager, ApiTaskCallback callback) {
         ApiConnectionFragment apiConnectionFragment = (ApiConnectionFragment) fragmentManager
                 .findFragmentByTag(ApiConnectionFragment.TAG);
         if (apiConnectionFragment == null) {
             apiConnectionFragment = new ApiConnectionFragment();
             fragmentManager.beginTransaction().add(apiConnectionFragment, TAG).commit();
         }
+        apiConnectionFragment.mCallback = callback;
         return apiConnectionFragment;
     }
 
@@ -76,7 +80,8 @@ public class ApiConnectionFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         // Host Activity will handle callbacks from task.
-        mCallback = (ApiTaskCallback) context;
+        if(mCallback == null)
+             mCallback = (ApiTaskCallback) context;
     }
 
     @Override
@@ -93,7 +98,6 @@ public class ApiConnectionFragment extends Fragment {
         super.onDestroy();
     }
 
-    // api login
     public void login(String username, String password, boolean asEmployee) {
         cancelDownload();
         mApiTask = new ApiTask(mCallback);
@@ -101,12 +105,25 @@ public class ApiConnectionFragment extends Fragment {
         mApiTask.execute(ApiTask.REQUEST_METHOD_POST, URL_API + URL_API_LOGIN_USER, "", postData);
     }
 
-    // api signUp
     public void signUp(String username, String name, String address, String password, boolean asEmployee, String emial, String phone) {
         cancelDownload();
         mApiTask = new ApiTask(mCallback);
         String postData = createSignUpPostData(username, name, address, password, asEmployee, emial, phone);
         mApiTask.execute(ApiTask.REQUEST_METHOD_POST, URL_API + URL_API_REGISTER, "", postData);
+    }
+
+    public void getCategories(Context context) {
+        cancelDownload();
+        mApiTask = new ApiTask(mCallback);
+        String token = SaveSharedPreference.getToken(context);
+        mApiTask.execute(ApiTask.REQUEST_METHOD_GET, URL_API + URL_API_GET_CATEGORY, token, "");
+    }
+
+    public void getModels(Context context) {
+        cancelDownload();
+        mApiTask = new ApiTask(mCallback);
+        String token = SaveSharedPreference.getToken(context);
+        mApiTask.execute(ApiTask.REQUEST_METHOD_GET, URL_API + URL_API_GET_MODELS, token, "");
     }
 
     private String createSignUpPostData(String username, String name, String address, String password, boolean asEmployee, String email, String phone) {
@@ -268,9 +285,9 @@ public class ApiConnectionFragment extends Fragment {
             try {
                 connection = (HttpURLConnection) url.openConnection();
                 // Timeout for reading InputStream arbitrarily set to 3000ms.
-                connection.setReadTimeout(3000);
+                connection.setReadTimeout(10000);
                 // Timeout for connection.connect() arbitrarily set to 3000ms.
-                connection.setConnectTimeout(3000);
+                connection.setConnectTimeout(10000);
                 // For this use case, set HTTP method to GET.
                 connection.setRequestMethod(requestMethod);
                 // Already true by default but setting just in case; needs to be true since this request
@@ -301,7 +318,7 @@ public class ApiConnectionFragment extends Fragment {
                 stream = connection.getInputStream();
                 publishProgress(ApiTaskCallback.Progress.GET_INPUT_STREAM_SUCCESS, 0);
                 if (stream != null) {
-                    result.mResultValue = readStream(stream, 500);
+                    result.mResultValue = readStream(stream, 100000);
                 }
             } finally {
                 // Close Stream and disconnect HTTPS connection.

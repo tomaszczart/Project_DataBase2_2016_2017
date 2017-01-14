@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
 
+import com.nowak01011111.damian.bunchoftools.api_client.ApiConnectionFragment;
 import com.nowak01011111.damian.bunchoftools.display.ImageCaptionedAdapter;
 import com.nowak01011111.damian.bunchoftools.R;
 import com.nowak01011111.damian.bunchoftools.entity.Model;
@@ -20,14 +21,15 @@ import java.util.ArrayList;
 public class ModelListFragment extends Fragment implements ImageCaptionedAdapter.OnItemClickListener {
     private OnModelListFragmentInteractionListener mListener;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         RecyclerView modelsRecycler = (RecyclerView)inflater.inflate(R.layout.fragment_model_list, container, false);
         //TODO: chnage data source
         ArrayList<ViewModel> viewModels = new ArrayList<>();
-        for(int i = 0; i <Model.models.length; i++){
-            ViewModel viewModel = new ViewModel(Model.models[i].getName(), Model.models[i].getImageResourceId());
+        for(int i = 0; i <10; i++){
+            ViewModel viewModel = new ViewModel(Integer.toString(i), 0);
             viewModels.add(viewModel);
         }
 
@@ -36,6 +38,9 @@ public class ModelListFragment extends Fragment implements ImageCaptionedAdapter
         modelsRecycler.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         modelsRecycler.setLayoutManager(layoutManager);
+
+
+
         return modelsRecycler;
     }
 

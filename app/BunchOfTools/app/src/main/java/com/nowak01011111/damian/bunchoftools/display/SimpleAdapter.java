@@ -27,7 +27,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cv = (CardView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_image_captioned, parent, false);
+                .inflate(R.layout.card_simple, parent, false);
         cv.setOnClickListener(this);
         return  new ViewHolder(cv);
     }
@@ -35,8 +35,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         CardView cardView = holder.cardView;
-        TextView textView = (TextView)cardView.findViewById(R.id.info_text);
-        textView.setText(simpleViewModels.get(position).getText());
+        TextView nameText = (TextView)cardView.findViewById(R.id.name_text);
+        TextView descriptionText = (TextView)cardView.findViewById(R.id.description_text);
+
+        nameText.setText(simpleViewModels.get(position).getName());
+        descriptionText.setText(simpleViewModels.get(position).getDescription());
+
         holder.cardView.setTag(simpleViewModels.get(position));
     }
 

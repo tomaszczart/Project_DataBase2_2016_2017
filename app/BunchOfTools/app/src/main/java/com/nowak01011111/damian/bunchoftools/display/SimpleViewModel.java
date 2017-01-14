@@ -5,14 +5,27 @@ package com.nowak01011111.damian.bunchoftools.display;
  */
 
 public class SimpleViewModel {
-    private String text;
+    private int id;
+    private String name;
+    private String description;
 
-    public SimpleViewModel(String text) {
-        this.text = text;
+    public SimpleViewModel(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+    public SimpleViewModel(String name, String description, int id) {
+        this(name,description);
+        this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getName() {
+        return name;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public int getId() {
+        return id;
     }
 
 }

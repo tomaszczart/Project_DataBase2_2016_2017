@@ -39,7 +39,8 @@ public class ImageCaptionedAdapter extends RecyclerView.Adapter<ImageCaptionedAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         CardView cardView = holder.cardView;
         ImageView imageView = (ImageView)cardView.findViewById(R.id.info_image);
-        Drawable drawable = cardView.getResources().getDrawable(viewModels.get(position).getImage()); //TODO: replace deprecated
+        //TODO delete / replace
+        Drawable drawable = cardView.getResources().getDrawable(R.drawable.saw);//viewModels.get(position).getImage()); //TODO: replace deprecated
         imageView.setImageDrawable(drawable);
         imageView.setContentDescription(viewModels.get(position).getText());
         TextView textView = (TextView)cardView.findViewById(R.id.info_text);
