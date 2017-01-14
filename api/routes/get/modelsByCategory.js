@@ -13,7 +13,7 @@ module.exports = (function() {
 
         let categoryId = req.params.categoryId;
 
-        sql.query`select model_id, name, description, price_per_hour FROM Model WHERE category_id=${categoryId}`.then(recordset => {
+        sql.query`select model_id, name, description, price_per_hour, category_id FROM Model WHERE category_id=${categoryId}`.then(recordset => {
             res.json(recordset);
         }).catch(err => {
             res.status(404).send();
