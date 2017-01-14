@@ -13,5 +13,9 @@ public class Login {
         SaveSharedPreference.setToken(context,token);
         SaveSharedPreference.setIsEmployee(context,isEmployee);
     }
+    public static void logout(Context context){
+        SaveSharedPreference.setToken(context,"");
+        SaveSharedPreference.setIsEmployee(context,false);
+    }
 
 }

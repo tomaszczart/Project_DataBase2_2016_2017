@@ -8,7 +8,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -49,15 +48,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -73,11 +63,11 @@ public class MainActivity extends AppCompatActivity
 
         if(InAppAuthorization.isUserLoggedIn(this)|| InAppAuthorization.isEmployeeLoggedIn(this))
         {
-            showLoginFragment();
+            showModelListFragment();
         }
         else
         {
-            showModelListFragment();
+            showLoginFragment();
         }
     }
 
@@ -141,6 +131,10 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.action_logout) {
+            Login.logout(this);
+            showLoginFragment();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -190,7 +184,6 @@ public class MainActivity extends AppCompatActivity
             mLoginInInProgress = true;
         }
     }
-
 
 
     @Override
