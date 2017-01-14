@@ -44,11 +44,9 @@ Po poprawnym zalogowaniu serwer wysyła ospowiedź HTTP o kodzie __200__ która 
 Autoryzacje odbywa się za pomocą JSON Web Token. Po zalogowaniu aplikacja androidowa otrzymuje odpowiedź od API z podpisanym loginem na pomocą tokenu.
 Token ten musi być wysyłany z kazdym zapytaniem w celu weryfikacji uprawnień użytkownika. Token znajduje się w customowym nagłówku zapytania HTTP, "x-auth".
 
-# Pobieranie danych z API.
+# Dodawanie rezerwacji.
 
-* '/get/employees' - lista pracowników
-* '/get/items' = lista itemów
-* '/get/transactions' - lista transakcji (autoryzacja tylko dla usera z uprawieniami pracownika)
+Data musi być w formacie 'YYYY-mm-dd HH:ii:ss';
 
 # Pobranie listy modeli oraz ich obrazków
 
@@ -59,7 +57,22 @@ Token ten musi być wysyłany z kazdym zapytaniem w celu weryfikacji uprawnień 
 Aby pobrać obrazek dla wybranego modelu należy w adresie URL podać jego __model_id__.
 *Przykładowo, pobranie obrazka dla modelu o __model_id__=__6__ adres URL będzie nastepujący: "__/get/imgOfModel/6__".*
 
-# Dodawanie rezerwacji.
+# Pobieranie listy modeli z wybranej kategorii
 
-Data musi być w formacie 'YYYY-mm-dd HH:ii:ss';
+* '/get/modelsByCategory/category_id' - pobieranie wszystkich modeli o wskazanym __category_id__.
+Zapytanie zwraca nastepujace pola tablicy Models: *model_id, name, description, price_per_hour*.
 
+*Przykład, dla __category_id__=__5__ adres URL będzie nastepujący: "__/get/modelsByCategory/5__".*
+
+# Pobieranie listy itemów danego modelu
+
+* '/get/itemsByModel/model_id' - pobieranie wszystkich itemów o wskazanym __model_id__.
+Zapytanie zwraca nastepujace pola tablicy Items: *item_id, itemstatus, condition*.
+
+*Przykład, dla __model_id__=__12__ adres URL będzie nastepujący: "__/get/itemsByModel/12__".*
+
+# Pobieranie danych z API.
+
+* '/get/employees' - lista pracowników
+* '/get/items' = lista itemów
+* '/get/transactions' - lista transakcji (autoryzacja tylko dla usera z uprawieniami pracownika)
