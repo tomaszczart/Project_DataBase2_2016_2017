@@ -37,6 +37,8 @@ Do logowania wymagane są następujące elementy w sekcji body zapytania HTTP:
 * username
 * password //wysyłane jako czysty tekst, porównanie jest robione przez api nie wiem na ile jest to bezpieczne rozwiązanie bo nie wygląda to zbyt ciekawie jak wysyłamy jawnie hasło po http ;/ -- trzeba bd to zmienić
 
+Po poprawnym zalogowaniu serwer wysyła ospowiedź HTTP o kodzie __200__ która w sekcji __body__ zawiera wygenerowany __token__, który będzie musiał być wysyłany przy każdym kolejnym zapytaniu w celu autoryzacji użytkownika.
+
 # Autoryzacja.
 
 Autoryzacje odbywa się za pomocą JSON Web Token. Po zalogowaniu aplikacja androidowa otrzymuje odpowiedź od API z podpisanym loginem na pomocą tokenu.
