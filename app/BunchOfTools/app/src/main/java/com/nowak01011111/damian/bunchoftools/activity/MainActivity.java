@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    private boolean asEmployee;
     @Override
     public void onLoginOperation(String login, String password, boolean asEmployee) {
         progressDialog = new ProgressDialog(this);
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity
         progressDialog.setMessage(LOADING_MESSAGE);
         progressDialog.setCancelable(false);
         progressDialog.show();
+        this.asEmployee = asEmployee;
         if (!mLoginInInProgress && mApiConnectionFragment != null) {
             mApiConnectionFragment.login(login, password, asEmployee);
             mLoginInInProgress = true;
@@ -208,7 +210,7 @@ public class MainActivity extends AppCompatActivity
             Snackbar.make(findViewById(android.R.id.content),  error, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }else{
-            Login.saveToken(result);
+            Login.saveToken(result, asEmployee, this);
             showModelListFragment();
         }
         progressDialog.dismiss();

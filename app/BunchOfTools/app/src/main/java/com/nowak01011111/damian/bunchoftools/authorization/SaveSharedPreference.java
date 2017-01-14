@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
  */
 
 public class SaveSharedPreference {
-    static final String PREF_TOKEN_USERNAME= "username";
+    static final String PREF_TOKEN = "token";
     static final String PREF_TOKEN_IS_EMPLOYEE= "is_employee";
 
 
@@ -17,27 +17,27 @@ public class SaveSharedPreference {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
-    public static void setUsername(Context ctx, String username)
+    public static void setToken(Context ctx, String token)
     {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putString(PREF_TOKEN_USERNAME, username);
+        editor.putString(PREF_TOKEN, token);
         editor.commit();
     }
 
-    public static String getUsername(Context ctx)
+    public static String getToken(Context ctx)
     {
-        return getSharedPreferences(ctx).getString(PREF_TOKEN_USERNAME, "");
+        return getSharedPreferences(ctx).getString(PREF_TOKEN, "");
     }
 
-    public static void setIsEmployee(Context ctx, int isEmployee)
+    public static void setIsEmployee(Context ctx, boolean isEmployee)
     {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putInt(PREF_TOKEN_IS_EMPLOYEE, isEmployee);
+        editor.putBoolean(PREF_TOKEN_IS_EMPLOYEE, isEmployee);
         editor.commit();
     }
 
-    public static int getEmployeeId(Context ctx)
+    public static boolean getIsEmployee(Context ctx)
     {
-        return getSharedPreferences(ctx).getInt(PREF_TOKEN_IS_EMPLOYEE, -1);
+        return getSharedPreferences(ctx).getBoolean(PREF_TOKEN_IS_EMPLOYEE, false);
     }
 }

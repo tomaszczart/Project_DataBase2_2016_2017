@@ -11,11 +11,14 @@ import com.nowak01011111.damian.bunchoftools.activity.MainActivity;
 public class InAppAuthorization {
 
     public static boolean isUserLoggedIn(Context context){
-        String result = SaveSharedPreference.getUsername(context);
-        return (result !=null && !result.isEmpty());
+        String token = SaveSharedPreference.getToken(context);
+        boolean isEmployee = SaveSharedPreference.getIsEmployee(context);
+        return ((token !=null && !token.isEmpty()) && isEmployee);
     }
 
     public static boolean isEmployeeLoggedIn(Context context){
-        return SaveSharedPreference.getEmployeeId(context) == -1;
+        String token = SaveSharedPreference.getToken(context);
+        boolean isEmployee = SaveSharedPreference.getIsEmployee(context);
+        return ((token !=null && !token.isEmpty()) && !isEmployee);
     }
 }
