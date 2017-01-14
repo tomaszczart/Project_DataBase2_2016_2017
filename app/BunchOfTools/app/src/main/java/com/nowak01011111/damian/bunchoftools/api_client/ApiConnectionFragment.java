@@ -43,6 +43,15 @@ public class ApiConnectionFragment extends Fragment {
     private static final String URL_API_LOGIN_POST_DATA_KEY_2 = "username";
     private static final String URL_API_LOGIN_POST_DATA_KEY_3 = "password";
 
+    private static final String URL_API_SIGN_UP_POST_DATA_KEY_1 = "username";
+    private static final String URL_API_SIGN_UP_POST_DATA_KEY_2 = "name";
+    private static final String URL_API_SIGN_UP_POST_DATA_KEY_3 = "address";
+    private static final String URL_API_SIGN_UP_POST_DATA_KEY_4 = "password";
+    private static final String URL_API_SIGN_UP_POST_DATA_KEY_5 = "employee";
+    private static final String URL_API_SIGN_UP_POST_DATA_KEY_6 = "email";
+    private static final String URL_API_SIGN_UP_POST_DATA_KEY_7 = "phone";
+
+
     private ApiTaskCallback mCallback;
     private ApiTask mApiTask;
 
@@ -90,6 +99,32 @@ public class ApiConnectionFragment extends Fragment {
         mApiTask = new ApiTask(mCallback);
         String postData = createLoginPostData(username, password, asEmployee);
         mApiTask.execute(ApiTask.REQUEST_METHOD_POST, URL_API + URL_API_LOGIN_USER, "", postData);
+    }
+
+    // api signUp
+    public void signUp(String username, String name, String address, String password, boolean asEmployee, String emial, String phone) {
+        cancelDownload();
+        mApiTask = new ApiTask(mCallback);
+        String postData = createSignUpPostData(username, name, address, password, asEmployee, emial, phone);
+        mApiTask.execute(ApiTask.REQUEST_METHOD_POST, URL_API + URL_API_REGISTER, "", postData);
+    }
+
+    private String createSignUpPostData(String username, String name, String address, String password, boolean asEmployee, String email, String phone) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(URL_API_SIGN_UP_POST_DATA_KEY_1, username);
+        params.put(URL_API_SIGN_UP_POST_DATA_KEY_2, name);
+        params.put(URL_API_SIGN_UP_POST_DATA_KEY_3, address);
+        params.put(URL_API_SIGN_UP_POST_DATA_KEY_4, password);
+        params.put(URL_API_SIGN_UP_POST_DATA_KEY_5, Boolean.toString(asEmployee));
+        if(!asEmployee){
+            params.put(URL_API_SIGN_UP_POST_DATA_KEY_6, email);
+            params.put(URL_API_SIGN_UP_POST_DATA_KEY_7, phone);
+        }
+        try {
+            return getPostDataString(params);
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
     }
 
     private String createLoginPostData(String username, String password, boolean asEmployee) {
@@ -151,7 +186,6 @@ public class ApiConnectionFragment extends Fragment {
 
         class Result {
             public String mResultValue;
-            public String mToken;
             public Exception mException;
 
             public Result() {
@@ -173,7 +207,7 @@ public class ApiConnectionFragment extends Fragment {
                         (networkInfo.getType() != ConnectivityManager.TYPE_WIFI
                                 && networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
                     // If no connectivity, cancel task and update Callback with null data.
-                    mCallback.updateFromDownload(null, null, ApiConnectionFragment.ERROR_CONNECTION_CANCELED);
+                    mCallback.updateFromDownload(null, ApiConnectionFragment.ERROR_CONNECTION_CANCELED);
                     cancel(true);
                 }
             }
@@ -203,6 +237,7 @@ public class ApiConnectionFragment extends Fragment {
             }
             return result;
         }
+
         /**
          * Updates the ApiTaskCallback with the result.
          */
@@ -210,9 +245,9 @@ public class ApiConnectionFragment extends Fragment {
         protected void onPostExecute(Result result) {
             if (result != null && mCallback != null) {
                 if (result.mException != null) {
-                    mCallback.updateFromDownload(null, null, result.mException.getMessage());
+                    mCallback.updateFromDownload(null, result.mException.getMessage());
                 } else if (result.mResultValue != null) {
-                    mCallback.updateFromDownload(result.mResultValue, result.mToken, null);
+                    mCallback.updateFromDownload(result.mResultValue, null);
                 }
                 mCallback.finishDownloading();
             }
@@ -259,16 +294,14 @@ public class ApiConnectionFragment extends Fragment {
                 connection.connect();
                 publishProgress(ApiTaskCallback.Progress.CONNECT_SUCCESS);
                 int responseCode = connection.getResponseCode();
-                if (responseCode != HttpsURLConnection.HTTP_OK) {
+                if (responseCode != HttpsURLConnection.HTTP_OK && responseCode != 201) {
                     throw new IOException("HTTP error code: " + responseCode);
                 }
-                result.mToken = connection.getHeaderField("x-auth");
-
                 // Retrieve the response body as an InputStream.
                 stream = connection.getInputStream();
                 publishProgress(ApiTaskCallback.Progress.GET_INPUT_STREAM_SUCCESS, 0);
                 if (stream != null) {
-                    result.mResultValue = readStream(stream, Integer.MAX_VALUE);
+                    result.mResultValue = readStream(stream, 500);
                 }
             } finally {
                 // Close Stream and disconnect HTTPS connection.

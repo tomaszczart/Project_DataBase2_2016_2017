@@ -21,10 +21,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.nowak01011111.damian.bunchoftools.R;
 import com.nowak01011111.damian.bunchoftools.api_client.ApiConnectionFragment;
 import com.nowak01011111.damian.bunchoftools.api_client.ApiTaskCallback;
+import com.nowak01011111.damian.bunchoftools.api_client.functionalities.Login;
 import com.nowak01011111.damian.bunchoftools.authorization.InAppAuthorization;
 import com.nowak01011111.damian.bunchoftools.display.ViewModel;
 import com.nowak01011111.damian.bunchoftools.fragments.LoginFragment;
@@ -32,6 +34,13 @@ import com.nowak01011111.damian.bunchoftools.fragments.ModelListFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ModelListFragment.OnModelListFragmentInteractionListener, LoginFragment.OnLoginFragmentInteractionListener, ApiTaskCallback{
+
+    public static final int SIGN_UP_REQUEST = 10;
+    private static final String SIGN_UP_RESULT_CODE_OK_MESSAGE = "Sign up successful";
+    private static final String SIGN_UP_RESULT_CODE_NOT_OK_MESSAGE = "Sign up failed.";
+
+    public static final String LOADING_TITLE = "Loading";
+    public static final String LOADING_MESSAGE = "Wait while loading...";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         mApiConnectionFragment = ApiConnectionFragment.getInstance(getSupportFragmentManager());
 
@@ -86,7 +97,20 @@ public class MainActivity extends AppCompatActivity
 
     private void startSignUpActivity(){
         Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,SIGN_UP_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SIGN_UP_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Snackbar.make(findViewById(android.R.id.content),  SIGN_UP_RESULT_CODE_OK_MESSAGE, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }else {
+                Snackbar.make(findViewById(android.R.id.content),  SIGN_UP_RESULT_CODE_NOT_OK_MESSAGE, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        }
     }
 
     @Override
@@ -155,12 +179,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoginOperation(String login, String password, boolean asEmployee) {
         progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Wait while loading...");
+        progressDialog.setTitle(LOADING_TITLE);
+        progressDialog.setMessage(LOADING_MESSAGE);
         progressDialog.setCancelable(false);
         progressDialog.show();
         if (!mLoginInInProgress && mApiConnectionFragment != null) {
-            // Execute the async download.
             mApiConnectionFragment.login(login, password, asEmployee);
             mLoginInInProgress = true;
         }
@@ -180,13 +203,13 @@ public class MainActivity extends AppCompatActivity
     ProgressDialog progressDialog;
 
     @Override
-    public void updateFromDownload(String result, String token, String error) {
+    public void updateFromDownload(String result, String error) {
         if(error != null && !error.isEmpty()){
             Snackbar.make(findViewById(android.R.id.content),  error, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }else{
-            Snackbar.make(findViewById(android.R.id.content),  result, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            Login.saveToken(result);
+            showModelListFragment();
         }
         progressDialog.dismiss();
     }
@@ -219,7 +242,6 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
         Log.d("LoginProgress", "percentComplete");
-
     }
 
     @Override

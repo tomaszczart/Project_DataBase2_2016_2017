@@ -19,5 +19,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="sign_up_activity_title">Sign up</string>
+    <string name="sign_up_activity_username">Username</string>
+    <string name="sign_up_activity_name">Name</string>
+    <string name="sign_up_activity_email">Email</string>
+    <string name="sign_up_activity_phone">Phone</string>
+    <string name="sign_up_activity_address">Address</string>
+    <string name="sign_up_activity_password">Password</string>
+    <string name="sign_up_activity_sign_up">Sign up</string>
+    <string name="sign_up_activity_employee_checkbox">Sign up as employee</string>
 
 </resources>

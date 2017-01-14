@@ -14,7 +14,7 @@ public interface ApiTaskCallback{
         int PROCESS_INPUT_STREAM_IN_PROGRESS = 2;
         int PROCESS_INPUT_STREAM_SUCCESS = 3;
     }
-    void updateFromDownload(String result, String token, String error);
+    void updateFromDownload(String result, String error);
     NetworkInfo getActiveNetworkInfo();
     void onProgressUpdate(int progressCode, int percentComplete);
     void finishDownloading();
