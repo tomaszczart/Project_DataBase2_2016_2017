@@ -19,9 +19,9 @@ module.exports = (function() {
         try{
             auth = jwt.decode(token, secretKey);
             if(auth.employee){
-                let customerId = req.body.customerId;
-                let employeeId = req.body.employeeId;
-                let dataStart = req.body.dataStart;
+                let customerId = req.body.customer_id;
+                let employeeId = req.body.employee_id;
+                let dataStart = req.body.data_start;
 
                 let request = new sql.Request();//end save in database
                 request.query(`INSERT INTO Transactions (customer_id, employee_id, data_start) VALUES (${customerId}, ${employeeId}, '${dataStart}')`).then(recordset => {

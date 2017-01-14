@@ -19,8 +19,8 @@ module.exports = (function() {
         try{
             auth = jwt.decode(token, secretKey);
             if(auth.employee){
-                let transactionId = req.body.transactionId;
-                let dataEnd = req.body.dataEnd;
+                let transactionId = req.body.transaction_id;
+                let dataEnd = req.body.data_end ;
                 let price = req.body.price;
 
                 let request = new sql.Request();//end save in database
