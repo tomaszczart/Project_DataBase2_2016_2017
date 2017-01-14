@@ -49,8 +49,6 @@ Token ten musi być wysyłany z kazdym zapytaniem w celu weryfikacji uprawnień 
 * '/get/employees' - lista pracowników
 * '/get/items' = lista itemów
 * '/get/transactions' - lista transakcji (autoryzacja tylko dla usera z uprawieniami pracownika)
-* '/post/register'
-* '/post/login'
 
 # Pobranie listy modeli oraz ich obrazków
 
