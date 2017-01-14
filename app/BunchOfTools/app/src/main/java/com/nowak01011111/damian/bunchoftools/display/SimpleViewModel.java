@@ -12,6 +12,7 @@ public class SimpleViewModel {
     public SimpleViewModel(String name, String description) {
         this.name = name;
         this.description = description;
+        this.id = -1;
     }
     public SimpleViewModel(String name, String description, int id) {
         this(name,description);

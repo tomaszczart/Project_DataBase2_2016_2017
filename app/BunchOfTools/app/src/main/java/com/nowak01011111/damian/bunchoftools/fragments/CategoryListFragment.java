@@ -35,7 +35,7 @@ public class CategoryListFragment extends Fragment implements SimpleAdapter.OnIt
     private CategoryListFragment.OnFragmentInteractionListener mListener;
     private ApiConnectionFragment mApiConnectionFragment;
     private ProgressDialog progressDialog;
-    private boolean mLoginInInProgress = false;
+    private boolean mConnectionInProgress = false;
     private List<Category> categories;
     private ArrayList<SimpleViewModel> simpleViewModels;
     private SimpleAdapter adapter;
@@ -66,9 +66,9 @@ public class CategoryListFragment extends Fragment implements SimpleAdapter.OnIt
         progressDialog.setMessage(MainActivity.LOADING_MESSAGE);
         progressDialog.setCancelable(false);
         progressDialog.show();
-        if (!mLoginInInProgress && mApiConnectionFragment != null) {
+        if (!mConnectionInProgress && mApiConnectionFragment != null) {
             mApiConnectionFragment.getCategories(getActivity());
-            mLoginInInProgress = true;
+            mConnectionInProgress = true;
         }
     }
 
@@ -147,7 +147,7 @@ public class CategoryListFragment extends Fragment implements SimpleAdapter.OnIt
 
     @Override
     public void finishDownloading() {
-        mLoginInInProgress = false;
+        mConnectionInProgress = false;
         if (mApiConnectionFragment != null) {
             mApiConnectionFragment.cancelDownload();
         }

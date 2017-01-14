@@ -58,7 +58,7 @@ public class ItemListFragment extends Fragment implements SimpleAdapter.OnItemCl
     @Override
     public void onItemClick(View view, SimpleViewModel simpleViewModel) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(view.findViewById(R.id.info_text), simpleViewModel);
+            mListener.onFragmentInteraction(view.findViewById(R.id.name_text), simpleViewModel);
         }
     }
 

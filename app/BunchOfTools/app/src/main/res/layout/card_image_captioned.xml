@@ -19,14 +19,27 @@
             android:layout_width="match_parent"
             android:scaleType="fitXY"
             android:background="@color/grey_1000_w"/>
-
         <TextView
-            android:id="@+id/info_text"
+            android:id="@+id/name_text"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:textSize="@dimen/text_large"
+            android:textStyle="bold"
             android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/information1_text"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/text_medium"
+            android:textStyle="italic"
+            android:layout_margin="@dimen/spacing_xsmall"/>
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/text_medium"
+            android:layout_margin="@dimen/spacing_xsmall"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

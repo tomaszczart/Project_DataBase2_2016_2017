@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
     }
 
-    private void showModelListFragment(int id){
-        Fragment fragment = new ModelListFragment();
+    private void showModelListFragment(int categoryId){
+        Fragment fragment = ModelListFragment.newInstance(categoryId);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame, fragment, "visible_fragment");
         ft.commit();
@@ -259,6 +259,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(SimpleViewModel simpleViewModel) {
-       //TODO go to model
+        showModelListFragment(simpleViewModel.getId());
     }
 }

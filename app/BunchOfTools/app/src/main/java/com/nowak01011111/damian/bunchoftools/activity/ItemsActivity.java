@@ -37,7 +37,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemListFragment
     public static void navigate(AppCompatActivity activity, View transitionImage, ViewModel viewModel) {
         Intent intent = new Intent(activity, ItemsActivity.class);
         intent.putExtra(EXTRA_IMAGE, viewModel.getImage());
-        intent.putExtra(EXTRA_TITLE, viewModel.getText());
+        intent.putExtra(EXTRA_TITLE, viewModel.getName());
 
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, transitionImage, EXTRA_IMAGE);
         ActivityCompat.startActivity(activity, intent, options.toBundle());
