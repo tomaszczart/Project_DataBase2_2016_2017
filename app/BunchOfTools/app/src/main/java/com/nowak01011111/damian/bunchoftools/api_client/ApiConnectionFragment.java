@@ -33,7 +33,9 @@ public class ApiConnectionFragment extends Fragment {
     public static final String TAG = "ApiConnectionFragment";
     public static final String ERROR_CONNECTION_CANCELED = "Error: connection canceled.";
 
-    private static final String URL_API = "http://192.168.1.169:3000";
+    public static final String URL_API = "http://192.168.1.169:3000";
+    public static final String URL_API_GET_MODEL_IMAGE = "/get/imgOfModel/";
+
     private static final String URL_API_LOGIN_USER = "/post/login";
     private static final String URL_API_GET_EMPLOYEES = "/get/employees";
     private static final String URL_API_GET_ITEMS = "/get/items";
@@ -291,14 +293,9 @@ public class ApiConnectionFragment extends Fragment {
             Result result = new Result();
             try {
                 connection = (HttpURLConnection) url.openConnection();
-                // Timeout for reading InputStream arbitrarily set to 3000ms.
                 connection.setReadTimeout(10000);
-                // Timeout for connection.connect() arbitrarily set to 3000ms.
                 connection.setConnectTimeout(10000);
-                // For this use case, set HTTP method to GET.
                 connection.setRequestMethod(requestMethod);
-                // Already true by default but setting just in case; needs to be true since this request
-                // is carrying an input (response) body.
                 connection.setDoInput(true);
 
                 connection.setRequestProperty("x-auth", token);

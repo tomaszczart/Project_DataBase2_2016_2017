@@ -1,5 +1,7 @@
 package com.nowak01011111.damian.bunchoftools.display;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by utche on 30.10.2016.
  */
@@ -9,16 +11,17 @@ public class ViewModel {
     private String name;
     private String description;
     private String information1;
-    private int image;
+    private String bitmapPath;
 
-    public ViewModel(String name,String description, String information1) {
+    public ViewModel(String name,String description, String information1, String bitmapPath) {
         this.name = name;
         this.description = description;
         this.information1 = information1;
+        this.bitmapPath = bitmapPath;
         this.id = -1;
     }
-    public ViewModel(String name,String description, String information1, int id) {
-        this(name,description,information1);
+    public ViewModel(String name,String description, String information1,String bitmapPath, int id) {
+        this(name,description,information1,bitmapPath);
         this.id = id;
     }
 
@@ -34,8 +37,8 @@ public class ViewModel {
     public int getId() {
         return id;
     }
-    public int getImage() {
-        return image;
+    public String getBitmapPath() {
+        return bitmapPath;
     }
 
 

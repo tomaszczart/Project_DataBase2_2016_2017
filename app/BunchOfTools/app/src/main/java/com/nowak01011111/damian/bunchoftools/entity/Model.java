@@ -12,13 +12,15 @@ public class Model {
     private String description;
     private float pricePerHour;
     private int categoryId;
+    private String imageUrl;
 
-    public Model(int id, String name, String description, float pricePerHour, int categoryId) {
+    public Model(int id, String name, String description, float pricePerHour, int categoryId, String imageUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.pricePerHour = pricePerHour;
         this.categoryId = categoryId;
+        this.imageUrl = imageUrl;
     }
 
     public int getId() {
@@ -40,4 +42,9 @@ public class Model {
     public int getCategoryId() {
         return categoryId;
     }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
 }

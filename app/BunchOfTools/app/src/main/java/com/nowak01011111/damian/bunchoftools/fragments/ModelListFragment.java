@@ -27,17 +27,19 @@ import com.nowak01011111.damian.bunchoftools.display.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModelListFragment extends Fragment implements ImageCaptionedAdapter.OnItemClickListener,ApiTaskCallback {
+public class ModelListFragment extends Fragment implements ImageCaptionedAdapter.OnItemClickListener, ApiTaskCallback {
     private OnModelListFragmentInteractionListener mListener;
 
     private static final String ARG_CATEGORY_ID = "category_id";
     private int mCategoryId;
     private ApiConnectionFragment mApiConnectionFragment;
     private ProgressDialog progressDialog;
+
     private boolean mConnectionInProgress = false;
     private List<Model> models;
     private ArrayList<ViewModel> viewModels;
     private ImageCaptionedAdapter adapter;
+
 
     public static ModelListFragment newInstance(int categoryId) {
         ModelListFragment fragment = new ModelListFragment();
@@ -50,10 +52,10 @@ public class ModelListFragment extends Fragment implements ImageCaptionedAdapter
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        RecyclerView modelsRecycler = (RecyclerView)inflater.inflate(R.layout.fragment_model_list, container, false);
+        RecyclerView modelsRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_model_list, container, false);
         if (getArguments() != null) {
             mCategoryId = getArguments().getInt(ARG_CATEGORY_ID);
-        }else{
+        } else {
             mCategoryId = -1;
         }
         viewModels = new ArrayList<>();
@@ -64,36 +66,29 @@ public class ModelListFragment extends Fragment implements ImageCaptionedAdapter
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         modelsRecycler.setLayoutManager(layoutManager);
 
-        mApiConnectionFragment = ApiConnectionFragment.getInstance(getChildFragmentManager(),this);
+        mApiConnectionFragment = ApiConnectionFragment.getInstance(getChildFragmentManager(), this);
 
         getModelsFromApi();
 
         return modelsRecycler;
     }
 
-    private void getModelsFromApi(){
+    private void getModelsFromApi() {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle(MainActivity.LOADING_TITLE);
         progressDialog.setMessage(MainActivity.LOADING_MESSAGE);
         progressDialog.setCancelable(false);
         progressDialog.show();
         if (!mConnectionInProgress && mApiConnectionFragment != null) {
-            if(mCategoryId!=-1){
+            if (mCategoryId != -1) {
                 mApiConnectionFragment.getModels(getActivity(), mCategoryId);
-            }else{
+            } else {
                 mApiConnectionFragment.getModels(getActivity());
             }
             mConnectionInProgress = true;
         }
     }
 
-    private void updateViewModels(){
-        for (Model model:models) {
-            ViewModel viewModel = new ViewModel(model.getName(),model.getDescription(), Float.toString(model.getPricePerHour()),model.getId());
-            viewModels.add(viewModel);
-        }
-        adapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -116,14 +111,18 @@ public class ModelListFragment extends Fragment implements ImageCaptionedAdapter
 
     @Override
     public void updateFromDownload(String result, String error) {
-        if(error != null && !error.isEmpty()){
+        if (error != null && !error.isEmpty()) {
             Snackbar.make(getView(), error, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-        }else{
+        } else {
             models = Models.parseResult(result);
-            updateViewModels();
+            for (Model model: models ){
+                ViewModel viewModel = new ViewModel(model.getName(), model.getDescription(), Float.toString(model.getPricePerHour()), model.getImageUrl(), model.getId());
+                viewModels.add(viewModel);
+            }
+            progressDialog.dismiss();
+            adapter.notifyDataSetChanged();
         }
-        progressDialog.dismiss();
     }
 
     @Override
@@ -136,7 +135,7 @@ public class ModelListFragment extends Fragment implements ImageCaptionedAdapter
 
     @Override
     public void onProgressUpdate(int progressCode, int percentComplete) {
-        switch(progressCode) {
+        switch (progressCode) {
             case Progress.ERROR:
                 Log.d("LoginProgress", "ERROR");
                 break;

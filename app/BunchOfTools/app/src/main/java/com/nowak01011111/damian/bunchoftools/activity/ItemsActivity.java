@@ -28,6 +28,8 @@ import com.nowak01011111.damian.bunchoftools.R;
 import com.nowak01011111.damian.bunchoftools.display.SimpleViewModel;
 import com.nowak01011111.damian.bunchoftools.display.ViewModel;
 import com.nowak01011111.damian.bunchoftools.fragments.ItemListFragment;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Callback;
 
 public class ItemsActivity extends AppCompatActivity implements ItemListFragment.OnFragmentInteractionListener{
     private static final String EXTRA_IMAGE = "items.extraImage";
@@ -36,7 +38,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemListFragment
 
     public static void navigate(AppCompatActivity activity, View transitionImage, ViewModel viewModel) {
         Intent intent = new Intent(activity, ItemsActivity.class);
-        intent.putExtra(EXTRA_IMAGE, viewModel.getImage());
+        intent.putExtra(EXTRA_IMAGE, viewModel.getBitmapPath());
         intent.putExtra(EXTRA_TITLE, viewModel.getName());
 
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, transitionImage, EXTRA_IMAGE);
@@ -59,13 +61,17 @@ public class ItemsActivity extends AppCompatActivity implements ItemListFragment
         collapsingToolbarLayout.setTitle(itemTitle);
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
-        int imageIds = getIntent().getIntExtra(EXTRA_IMAGE, -1);
-        final ImageView image = (ImageView) findViewById(R.id.image);
-        Drawable drawable = getResources().getDrawable(imageIds); //TODO: replace deprecated
-        image.setImageDrawable(drawable);
+        ImageView image = (ImageView) findViewById(R.id.image);
 
-        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
-        Palette.from(bitmap).generate(palette -> applyPalette(palette));
+        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(image, new Callback() {
+            @Override public void onSuccess() {
+                Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+                Palette.from(bitmap).generate(palette -> applyPalette(palette));
+            }
+            @Override public void onError() {
+            }
+        });
+
         TextView title = (TextView) findViewById(R.id.title);
         title.setText(itemTitle);
 

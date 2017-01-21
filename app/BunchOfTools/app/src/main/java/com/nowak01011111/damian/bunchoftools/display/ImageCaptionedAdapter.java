@@ -1,6 +1,6 @@
 package com.nowak01011111.damian.bunchoftools.display;
 
-import android.graphics.drawable.Drawable;
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nowak01011111.damian.bunchoftools.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,6 @@ public class ImageCaptionedAdapter extends RecyclerView.Adapter<ImageCaptionedAd
     public ImageCaptionedAdapter(ArrayList<ViewModel> viewModels) {
         this.viewModels = viewModels;
     }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cv = (CardView) LayoutInflater.from(parent.getContext())
@@ -42,10 +42,7 @@ public class ImageCaptionedAdapter extends RecyclerView.Adapter<ImageCaptionedAd
         TextView nameText = (TextView)cardView.findViewById(R.id.name_text);
         TextView descriptionText = (TextView)cardView.findViewById(R.id.description_text);
         TextView information1Text = (TextView)cardView.findViewById(R.id.information1_text);
-
-        //TODO delete / replace for image
-        Drawable drawable = cardView.getResources().getDrawable(R.drawable.saw);//viewModels.get(position).getImage()); //TODO: replace deprecated
-        imageView.setImageDrawable(drawable);
+        Picasso.with(holder.cardView.getContext() ).load(viewModels.get(position).getBitmapPath()).into(imageView);
         imageView.setContentDescription(viewModels.get(position).getName());
 
         nameText.setText(viewModels.get(position).getName());
