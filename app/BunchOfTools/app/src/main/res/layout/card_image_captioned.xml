@@ -14,11 +14,13 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <ImageView android:id="@+id/info_image"
-            android:layout_height="wrap_content"
+        <com.nowak01011111.damian.bunchoftools.my_view.SquareImageView
+            android:id="@+id/info_image"
             android:layout_width="match_parent"
-            android:scaleType="fitXY"
-            android:background="@color/grey_1000_w"/>
+            android:layout_height="200dp"
+            android:background="@color/grey_1000_w"
+            android:scaleType="centerCrop"/>
+
         <TextView
             android:id="@+id/name_text"
             android:layout_marginLeft="5dp"

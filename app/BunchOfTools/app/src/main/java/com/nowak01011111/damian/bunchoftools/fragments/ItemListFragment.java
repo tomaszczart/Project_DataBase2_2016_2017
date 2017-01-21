@@ -31,7 +31,7 @@ public class ItemListFragment extends Fragment implements SimpleAdapter.OnItemCl
 
         //TODO: chnage data source
         ArrayList<SimpleViewModel> simpleViewModels = new ArrayList<>();
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 2; i++){
             SimpleViewModel simpleViewModel = new SimpleViewModel( Integer.toString(i),Integer.toString(i));
             simpleViewModels.add(simpleViewModel);
         }
