@@ -43,15 +43,15 @@ public class Item {
     }
 
     public enum Condition {
-        BAD,
-        NORMAL,
-        GOOD,
+        Bad,
+        Normal,
+        Good,
     }
 
     public enum Status {
-        AVAILABLE,
-        RENTED,
-        RESERVED,
+        Available,
+        Rent,
+        Reserved,
     }
 
 

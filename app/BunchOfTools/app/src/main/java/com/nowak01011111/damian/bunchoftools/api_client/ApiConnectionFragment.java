@@ -39,6 +39,7 @@ public class ApiConnectionFragment extends Fragment {
     private static final String URL_API_LOGIN_USER = "/post/login";
     private static final String URL_API_GET_EMPLOYEES = "/get/employees";
     private static final String URL_API_GET_ITEMS = "/get/items";
+    private static final String URL_API_GET_ITEMS_BY_MODEL = "/get/itemsByModel/";
     private static final String URL_API_GET_MODELS_BY_CATEGORY = "/get/modelsByCategory/";
     private static final String URL_API_GET_MODELS = "/get/models";
     private static final String URL_API_GET_CATEGORY = "/get/category";
@@ -134,6 +135,21 @@ public class ApiConnectionFragment extends Fragment {
         String token = SaveSharedPreference.getToken(context);
         mApiTask.execute(ApiTask.REQUEST_METHOD_GET, URL_API + URL_API_GET_MODELS_BY_CATEGORY + categoryId, token, "");
     }
+
+    public void getItems(Context context) {
+        cancelDownload();
+        mApiTask = new ApiTask(mCallback);
+        String token = SaveSharedPreference.getToken(context);
+        mApiTask.execute(ApiTask.REQUEST_METHOD_GET, URL_API + URL_API_GET_ITEMS, token, "");
+    }
+
+    public void getItems(Context context, int modelId) {
+        cancelDownload();
+        mApiTask = new ApiTask(mCallback);
+        String token = SaveSharedPreference.getToken(context);
+        mApiTask.execute(ApiTask.REQUEST_METHOD_GET, URL_API + URL_API_GET_ITEMS_BY_MODEL + modelId, token, "");
+    }
+
 
     private String createSignUpPostData(String username, String name, String address, String password, boolean asEmployee, String email, String phone) {
         HashMap<String, String> params = new HashMap<>();
