@@ -13,7 +13,7 @@ module.exports = (function() {
 
         let modelId = req.params.modelId;
 
-        sql.query`select item_id, itemstatus, condition FROM Item WHERE model_id=${modelId}`.then(recordset => {
+        sql.query`select * FROM Item WHERE model_id=${modelId}`.then(recordset => {
             res.json(recordset);
         }).catch(err => {
             res.status(404).send();
