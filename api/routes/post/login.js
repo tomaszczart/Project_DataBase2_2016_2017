@@ -26,7 +26,8 @@ module.exports = (function() {
                         if(!err){
                             if(bcryptRes){
                                 let token = jwt.encode({username: user.username, employee: true}, secretKey);
-                                res.json(token);
+                                console.log(token);
+                                res.status(200).send(token);
                             }else{
                                 res.status(401).send();//wrong password
                             }
@@ -46,12 +47,13 @@ module.exports = (function() {
                         if(!err){
                             if(bcryptRes){
                                 let token = jwt.encode({username: user.username, employee: false}, secretKey);
+                                console.log(token);
                                 res.json(token);
                             }else{
                                 res.status(401).send();//wrong password
                             }
                         }else{
-                            res.status(500).send();//server error (problem with bcrypt)
+                            res.status(400).send();//bad request
                         }
                     });
                 }else{
