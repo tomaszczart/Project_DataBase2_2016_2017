@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/spacing_large"
     tools:context="com.nowak01011111.damian.bunchoftools.fragments.LoginFragment">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_large"
         app:cardElevation="@dimen/spacing_medium"
         app:cardUseCompatPadding="true">
 

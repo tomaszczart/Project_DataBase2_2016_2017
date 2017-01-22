@@ -34,12 +34,18 @@ import com.squareup.picasso.Callback;
 public class ItemsActivity extends AppCompatActivity implements ItemListFragment.OnFragmentInteractionListener{
     private static final String EXTRA_IMAGE = "items.extraImage";
     private static final String EXTRA_TITLE = "items.extraTitle";
+    private static final String EXTRA_MODEL_ID = "items.extraModelID";
+    private static final String EXTRA_DESCRIPTION = "items.extraDescription";
+
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private int modelId;
 
     public static void navigate(AppCompatActivity activity, View transitionImage, ViewModel viewModel) {
         Intent intent = new Intent(activity, ItemsActivity.class);
         intent.putExtra(EXTRA_IMAGE, viewModel.getBitmapPath());
         intent.putExtra(EXTRA_TITLE, viewModel.getName());
+        intent.putExtra(EXTRA_MODEL_ID, viewModel.getId());
+        intent.putExtra(EXTRA_DESCRIPTION, viewModel.getDescription());
 
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, transitionImage, EXTRA_IMAGE);
         ActivityCompat.startActivity(activity, intent, options.toBundle());
@@ -53,17 +59,20 @@ public class ItemsActivity extends AppCompatActivity implements ItemListFragment
 
         ViewCompat.setTransitionName(findViewById(R.id.app_bar_layout), EXTRA_IMAGE);
         supportPostponeEnterTransition();
-
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        String itemTitle = getIntent().getStringExtra(EXTRA_TITLE);
+        String titleText = getIntent().getStringExtra(EXTRA_TITLE);
+        String imageUrl = getIntent().getStringExtra(EXTRA_IMAGE);
+        String descriptionText = getIntent().getStringExtra(EXTRA_DESCRIPTION);
+        modelId  = getIntent().getIntExtra(EXTRA_MODEL_ID, -1);
+
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle(itemTitle);
+        collapsingToolbarLayout.setTitle(titleText);
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
         ImageView image = (ImageView) findViewById(R.id.image);
 
-        Picasso.with(this).load(getIntent().getStringExtra(EXTRA_IMAGE)).into(image, new Callback() {
+        Picasso.with(this).load(imageUrl).into(image, new Callback() {
             @Override public void onSuccess() {
                 Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
                 Palette.from(bitmap).generate(palette -> applyPalette(palette));
@@ -73,9 +82,11 @@ public class ItemsActivity extends AppCompatActivity implements ItemListFragment
         });
 
         TextView title = (TextView) findViewById(R.id.title);
-        title.setText(itemTitle);
+        title.setText(titleText);
+        TextView description = (TextView) findViewById(R.id.description);
+        description.setText(descriptionText);
 
-        Fragment fragment = new ItemListFragment();
+        Fragment fragment = ItemListFragment.newInstance(modelId);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame, fragment, "visible_fragment");
         ft.commit();

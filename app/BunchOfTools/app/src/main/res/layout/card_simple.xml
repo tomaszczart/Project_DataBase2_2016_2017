@@ -7,8 +7,9 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/spacing_medium"
-    android:layout_marginRight="@dimen/spacing_medium"
+    android:layout_marginLeft="@dimen/spacing_large"
+    android:layout_marginRight="@dimen/spacing_large"
+    android:layout_marginTop="@dimen/spacing_xsmall"
     card_view:cardCornerRadius="4dp"
     app:cardElevation="@dimen/spacing_medium"
     app:cardUseCompatPadding="true">
@@ -17,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:layout_margin="@dimen/spacing_xsmall">
+        android:layout_margin="@dimen/spacing_medium">
         <TextView
             android:id="@+id/name_text"
             android:layout_height="wrap_content"
@@ -25,13 +26,13 @@
             android:textSize="@dimen/text_large"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:layout_margin="@dimen/spacing_xsmall"/>
+            android:layout_margin="@dimen/spacing_medium"/>
         <TextView
             android:id="@+id/description_text"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:textSize="@dimen/text_medium"
             android:textAlignment="center"
-            android:layout_margin="@dimen/spacing_xsmall"/>
+            android:layout_margin="@dimen/spacing_medium"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

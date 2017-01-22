@@ -36,11 +36,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
     @Override
     public void onBindViewHolder(ItemAdapter.ViewHolder holder, int position) {
         CardView cardView = holder.cardView;
-        TextView nameText = (TextView)cardView.findViewById(R.id.name_text);
-        TextView descriptionText = (TextView)cardView.findViewById(R.id.description_text);
+        TextView information1 = (TextView)cardView.findViewById(R.id.information1_text);
+        TextView information2 = (TextView)cardView.findViewById(R.id.information2_text);
+        TextView information3 = (TextView)cardView.findViewById(R.id.information3_text);
 
-        nameText.setText(itemViewModels.get(position).getInformation1());
-        descriptionText.setText(itemViewModels.get(position).getInformation2());
+        information1.setText(Integer.toString(itemViewModels.get(position).getId()));
+        information2.setText(itemViewModels.get(position).getInformation1());
+        information3.setText(itemViewModels.get(position).getInformation2());
 
         holder.cardView.setTag(itemViewModels.get(position));
     }

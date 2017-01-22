@@ -28,4 +28,12 @@
     <string name="sign_up_activity_sign_up">Sign up</string>
     <string name="sign_up_activity_employee_checkbox">Sign up as employee</string>
 
+    <string name="label_price_per_hour">Price per hour</string>
+
+    <string name="label_id">ID</string>
+    <string name="label_status">Status</string>
+    <string name="label_condition">Condition</string>
+    <string name="button_reserve">Book this item</string>
+
+
 </resources>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,6 +46,14 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
     private ItemAdapter adapter;
 
 
+    public static ItemListFragment newInstance(int modelId) {
+        ItemListFragment fragment = new ItemListFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_MODEL_ID, modelId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,7 +68,7 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
         adapter = new ItemAdapter(itemViewModels);
         adapter.setOnItemClickListener(this);
         itemsListRecycler.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),2);
         itemsListRecycler.setLayoutManager(layoutManager);
 
         mApiConnectionFragment = ApiConnectionFragment.getInstance(getChildFragmentManager(), this);
