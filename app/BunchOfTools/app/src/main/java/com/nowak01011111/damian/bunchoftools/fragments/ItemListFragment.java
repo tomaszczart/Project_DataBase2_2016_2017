@@ -118,9 +118,9 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
                         item.getStatus().toString(),item.getId());
                 itemViewModels.add(itemViewModel);
             }
-            progressDialog.dismiss();
             adapter.notifyDataSetChanged();
         }
+        progressDialog.dismiss();
     }
 
     @Override
@@ -162,11 +162,17 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
     }
 
     @Override
-    public void onItemClick(View view, ItemViewModel viewModel) {
-        //TODO
+    public void onItemClick(View view, ItemViewModel itemViewModel) {
+      //  mListener.onFragmentInteraction(mModelId, itemViewModel);
+    }
+
+    @Override
+    public void onReservationClick(int itemId) {
+        mListener.onFragmentInteraction(itemId);
     }
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(View app_bar_layout, SimpleViewModel simpleViewModel);
+        void onFragmentInteraction(int itemId);
+
     }
 }

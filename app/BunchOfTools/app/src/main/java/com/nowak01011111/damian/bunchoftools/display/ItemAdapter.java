@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.nowak01011111.damian.bunchoftools.R;
+import com.nowak01011111.damian.bunchoftools.entity.Item;
 
 import java.util.ArrayList;
 
@@ -39,10 +41,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
         TextView information1 = (TextView)cardView.findViewById(R.id.information1_text);
         TextView information2 = (TextView)cardView.findViewById(R.id.information2_text);
         TextView information3 = (TextView)cardView.findViewById(R.id.information3_text);
-
+        String reservationInformation = itemViewModels.get(position).getInformation2();
         information1.setText(Integer.toString(itemViewModels.get(position).getId()));
         information2.setText(itemViewModels.get(position).getInformation1());
         information3.setText(itemViewModels.get(position).getInformation2());
+
+        Button bookItem = (Button) cardView.findViewById(R.id.button_reserve);
+        bookItem.setOnClickListener(v -> {
+            String id  = information1.getText().toString();
+            onItemClickListener.onReservationClick(Integer.parseInt(id));
+        });
+
+        if(reservationInformation.equals(Item.Status.Reserved.toString()) || reservationInformation.equals(Item.Status.Rent.toString()))
+            bookItem.setEnabled(false);
+        else
+            bookItem.setEnabled(true);
 
         holder.cardView.setTag(itemViewModels.get(position));
     }
@@ -61,7 +74,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
     }
 
     @Override public void onClick(final View v) {
-        onItemClickListener.onItemClick(v, (ItemViewModel) v.getTag());
+        //onItemClickListener.onItemClick(v, (ItemViewModel) v.getTag());
     }
 
     public void setOnItemClickListener(ItemAdapter.OnItemClickListener onItemClickListener) {
@@ -71,6 +84,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
     public interface OnItemClickListener {
 
         void onItemClick(View view, ItemViewModel viewModel);
-
+        void onReservationClick(int itemId);
     }
 }

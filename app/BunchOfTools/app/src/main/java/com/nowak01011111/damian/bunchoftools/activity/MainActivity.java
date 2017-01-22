@@ -1,6 +1,7 @@
 package com.nowak01011111.damian.bunchoftools.activity;
 
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -34,14 +35,16 @@ import com.nowak01011111.damian.bunchoftools.fragments.LoginFragment;
 import com.nowak01011111.damian.bunchoftools.fragments.ModelListFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ModelListFragment.OnModelListFragmentInteractionListener,  LoginFragment.OnLoginFragmentInteractionListener,  ApiTaskCallback, CategoryListFragment.OnFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener, ModelListFragment.OnModelListFragmentInteractionListener, LoginFragment.OnLoginFragmentInteractionListener, ApiTaskCallback, CategoryListFragment.OnFragmentInteractionListener {
 
     public static final int SIGN_UP_REQUEST = 10;
+    public static final String LOADING_TITLE = "Loading";
+    public static final String LOADING_MESSAGE = "Wait while loading...";
+
     private static final String SIGN_UP_RESULT_CODE_OK_MESSAGE = "Sign up successful";
     private static final String SIGN_UP_RESULT_CODE_NOT_OK_MESSAGE = "Sign up failed.";
 
-    public static final String LOADING_TITLE = "Loading";
-    public static final String LOADING_MESSAGE = "Wait while loading...";
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,52 +64,58 @@ public class MainActivity extends AppCompatActivity
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        mApiConnectionFragment = ApiConnectionFragment.getInstance(getSupportFragmentManager(),this);
+        mApiConnectionFragment = ApiConnectionFragment.getInstance(getSupportFragmentManager(), this);
 
-        if(InAppAuthorization.isUserLoggedIn(this)|| InAppAuthorization.isEmployeeLoggedIn(this))
-        {
-            showCategoryListFragment();
+
+        if(menu!=null){
+            if(InAppAuthorization.isEmployeeLoggedIn(this))
+                menu.findItem(R.id.action_cms).setVisible(true);
+            else
+                menu.findItem(R.id.action_cms).setVisible(false);
         }
-        else
-        {
+
+        if (InAppAuthorization.isUserLoggedIn(this) || InAppAuthorization.isEmployeeLoggedIn(this)) {
+            showCategoryListFragment();
+        } else {
             showLoginFragment();
         }
     }
 
-    private void showLoginFragment(){
+    private void showLoginFragment() {
         Fragment fragment = new LoginFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frame, fragment, "visible_fragment");
+        ft.replace(R.id.content_frame, fragment, "login_fragment");
         ft.commit();
     }
 
-    private void showCategoryListFragment(){
+    private void showCategoryListFragment() {
         Fragment fragment = new CategoryListFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frame, fragment, "visible_fragment");
+        ft.replace(R.id.content_frame, fragment, "category_fragment");
         ft.commit();
     }
 
-    private void showModelListFragment(int categoryId){
+    private void showModelListFragment(int categoryId) {
         Fragment fragment = ModelListFragment.newInstance(categoryId);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frame, fragment, "visible_fragment");
+        ft.replace(R.id.content_frame, fragment, "model_fragment");
+        ft.addToBackStack(null);
         ft.commit();
     }
 
-    private void startSignUpActivity(){
+    private void startSignUpActivity() {
         Intent intent = new Intent(this, SignUpActivity.class);
-        startActivityForResult(intent,SIGN_UP_REQUEST);
+        startActivityForResult(intent, SIGN_UP_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SIGN_UP_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Snackbar.make(findViewById(android.R.id.content),  SIGN_UP_RESULT_CODE_OK_MESSAGE, Snackbar.LENGTH_LONG)
+                Snackbar.make(findViewById(android.R.id.content), SIGN_UP_RESULT_CODE_OK_MESSAGE, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-            }else {
-                Snackbar.make(findViewById(android.R.id.content),  SIGN_UP_RESULT_CODE_NOT_OK_MESSAGE, Snackbar.LENGTH_LONG)
+            } else {
+                Snackbar.make(findViewById(android.R.id.content), SIGN_UP_RESULT_CODE_NOT_OK_MESSAGE, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         }
@@ -115,6 +124,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        FragmentManager fm = getFragmentManager();
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -141,12 +151,33 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         if (id == R.id.action_logout) {
-            Login.logout(this);
-            showLoginFragment();
+            logout();
         }
-
+        if (id == R.id.action_cms) {
+            //TODO Employee CMS
+        }
         return super.onOptionsItemSelected(item);
     }
+
+    private void logout(){
+        Login.logout(this);
+        if(menu!=null){
+            menu.findItem(R.id.action_cms).setVisible(false);
+        }
+        showLoginFragment();
+
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        this.menu = menu;
+        if (InAppAuthorization.isEmployeeLoggedIn(this))
+            menu.findItem(R.id.action_cms).setVisible(true);
+        else
+            menu.findItem(R.id.action_cms).setVisible(false);
+        return true;
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -175,11 +206,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onModelListFragmentItemClick(View view, ViewModel viewModel) {
-        ItemsActivity.navigate(this,view,viewModel);
+        ItemsActivity.navigate(this, view, viewModel);
     }
 
 
     private boolean asEmployee;
+
     @Override
     public void onLoginOperation(String login, String password, boolean asEmployee) {
         progressDialog = new ProgressDialog(this);
@@ -208,10 +240,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void updateFromDownload(String result, String error) {
-        if(error != null && !error.isEmpty()){
-            Snackbar.make(findViewById(android.R.id.content),  error, Snackbar.LENGTH_LONG)
+        if (error != null && !error.isEmpty()) {
+            Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-        }else{
+        } else {
             Login.saveToken(result, asEmployee, this);
             showCategoryListFragment();
         }
@@ -228,7 +260,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onProgressUpdate(int progressCode, int percentComplete) {
-        switch(progressCode) {
+        switch (progressCode) {
             case Progress.ERROR:
                 Log.d("LoginProgress", "ERROR");
                 break;

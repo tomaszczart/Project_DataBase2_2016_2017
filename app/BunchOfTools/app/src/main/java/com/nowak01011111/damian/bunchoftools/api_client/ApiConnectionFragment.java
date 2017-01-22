@@ -45,6 +45,8 @@ public class ApiConnectionFragment extends Fragment {
     private static final String URL_API_GET_CATEGORY = "/get/category";
     private static final String URL_API_GET_TRANSACTIONS = "/get/transactions";
     private static final String URL_API_REGISTER = "/post/register";
+    private static final String URL_API_MAKE_RESERVATION = "/post/reservation";
+
 
     private static final String URL_API_LOGIN_POST_DATA_KEY_1 = "employee";
     private static final String URL_API_LOGIN_POST_DATA_KEY_2 = "username";
@@ -58,6 +60,8 @@ public class ApiConnectionFragment extends Fragment {
     private static final String URL_API_SIGN_UP_POST_DATA_KEY_6 = "email";
     private static final String URL_API_SIGN_UP_POST_DATA_KEY_7 = "phone";
 
+    private static final String URL_API_MAKE_RESERVATION_POST_DATA_KEY_1 = "item_id";
+    private static final String URL_API_MAKE_RESERVATION_POST_DATA_KEY_2 = "date";
 
     private ApiTaskCallback mCallback;
     private ApiTask mApiTask;
@@ -150,6 +154,15 @@ public class ApiConnectionFragment extends Fragment {
         mApiTask.execute(ApiTask.REQUEST_METHOD_GET, URL_API + URL_API_GET_ITEMS_BY_MODEL + modelId, token, "");
     }
 
+    public void makeReservation(Context context, int itemId, String date) {
+        cancelDownload();
+        mApiTask = new ApiTask(mCallback);
+        String token = SaveSharedPreference.getToken(context);
+        String postData = createReservationPostData(itemId,date);
+        mApiTask.execute(ApiTask.REQUEST_METHOD_POST, URL_API + URL_API_MAKE_RESERVATION, token, postData);
+    }
+
+
 
     private String createSignUpPostData(String username, String name, String address, String password, boolean asEmployee, String email, String phone) {
         HashMap<String, String> params = new HashMap<>();
@@ -174,6 +187,17 @@ public class ApiConnectionFragment extends Fragment {
         params.put(URL_API_LOGIN_POST_DATA_KEY_1, Boolean.toString(asEmployee));
         params.put(URL_API_LOGIN_POST_DATA_KEY_2, username);
         params.put(URL_API_LOGIN_POST_DATA_KEY_3, password);
+        try {
+            return getPostDataString(params);
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
+    }
+
+    private String createReservationPostData(int itemId, String date) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(URL_API_MAKE_RESERVATION_POST_DATA_KEY_1, Integer.toString(itemId));
+        params.put(URL_API_MAKE_RESERVATION_POST_DATA_KEY_2, date);
         try {
             return getPostDataString(params);
         } catch (UnsupportedEncodingException e) {
